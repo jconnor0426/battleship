@@ -19,7 +19,8 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Color;
 
-public class homepage extends JFrame{
+public class homepage{
+	JFrame frame = new JFrame("Home Screen");
 	JButton b1, b2, b3, b4;
 	URL url;
 	JPanel panel = new JPanel();
@@ -33,18 +34,19 @@ public class homepage extends JFrame{
 
 	public void create(){
 		try{
-			url = new URL("http://hdwallpaper.freehdw.com/0004/3d-abstract_hdwallpaper_battleship_36265.jpg");
+			url = new URL("http://hdwallpaper.freehdw.com/0004/3d-abstract" + 
+			"_hdwallpaper_battleship_36265.jpg");
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 		try{
-	    	setContentPane(new JLabel(new ImageIcon(ImageIO.read(url))));
+	    	frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(url))));
 	   	} catch (Exception e){
 			e.printStackTrace();
 		}
 
-		setLayout(new BorderLayout());
+		frame.setLayout(new BorderLayout());
 
 	    b1 = new JButton("Player vs. Player");
 	    b2 = new JButton("Player vs. Computer");
@@ -61,15 +63,33 @@ public class homepage extends JFrame{
 	    title.setFont(font);
 		title.setForeground(new Color(10,150,250));
 
-	    add(panel, BorderLayout.SOUTH);
-	    add(title, BorderLayout.NORTH);
+	    frame.add(panel, BorderLayout.SOUTH);
+	    frame.add(title, BorderLayout.NORTH);
+
+	   	frame.setSize(500,500);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setVisible(true);
+	    frame.setResizable(false);
 
 	    // Player vs. Player
 	    b1.addActionListener(new ActionListener(){
 	    	public void actionPerformed(ActionEvent e){
+				frame.remove(title);
+				frame.remove(panel);
+				gameboard board = new gameboard();
+				frame.setVisible(false);
+				frame.dispose();
 
-	    	}
-	    });
+				frame = new JFrame("Game");
+				frame.add(board, BorderLayout.NORTH);
+			   	frame.setSize(500,500);
+			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setVisible(true);
+			    frame.setResizable(false);
+				frame.repaint();
+			}
+		});
+
 
 	    // Player vs. Computer
 	   	b2.addActionListener(new ActionListener(){
@@ -98,15 +118,9 @@ public class homepage extends JFrame{
 	    			JOptionPane.INFORMATION_MESSAGE);
 	    	}
 	    });
-
-	    // Just for refresh :) Not optional!
-	    setSize(500,500);
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setVisible(true);
-	    setResizable(false);
 	}
 
 	public void paintComponent(Graphics g){
-		
+		frame.repaint();
 	}
 }

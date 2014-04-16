@@ -10,7 +10,7 @@ import java.awt.Dimension;
 import java.awt.event.*;
 
 
-public class gameboard extends JFrame{
+class gameboard extends JPanel{
 	JButton[][] button_array1 = new JButton[10][10];
 	JButton[][] button_array2 = new JButton[10][10];
 	String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
@@ -18,16 +18,14 @@ public class gameboard extends JFrame{
 	JPanel panelWest = new JPanel(new BorderLayout());
 	JPanel mainPanel = new JPanel(new BorderLayout());
 
-	public static void main(String[] args){
-		gameboard g1 = new gameboard();
-		g1.createFrame();
+	public gameboard(){
+		createPanel();
 	}
 
 	// Sets up frame and adds panels
-	public void createFrame(){
+	public void createPanel(){
 		panelEast.setLayout(new FlowLayout());
 		panelWest.setLayout(new FlowLayout());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500,500);
 		BoardOne board1 = new BoardOne();
 		BoardTwo board2 = new BoardTwo();
@@ -36,9 +34,6 @@ public class gameboard extends JFrame{
 		mainPanel.add(panelEast, BorderLayout.EAST);
 		mainPanel.add(panelWest, BorderLayout.WEST);
 		add(mainPanel);
-		setVisible(true);
-		setResizable(false);
-		repaint();
 	}
 
 	// Stores button and x,y coordinates
