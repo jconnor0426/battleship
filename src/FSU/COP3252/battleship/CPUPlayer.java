@@ -1,4 +1,7 @@
+package FSU.COP3252.battleship;
+
 import java.util.Random;
+
 
 public class CPUPlayer extends Player
 {
@@ -23,66 +26,66 @@ public class CPUPlayer extends Player
 
 	public void takeTurn(GameBoard board)
 	{
-		GameBoard test;
-		//Check for winning Moves
-		for( int i = 0; i < board.boardSize; i++)
-		{
-			for ( int j = 0; j < board.boardSize ; j++ ) 
-			{
-				if( board.getSpace( i, j ) == ' ' )
-				{
-					//Check if that would win
-					test = new GameBoard( board);
-					test.makeMove( i, j, teamChar );
-					if(  test.checkWin( teamChar )  )
-					{
-						board.makeMove( i, j, teamChar );
-						return;
-					}
-				}
-			}
-		}
-
-		for( int i = 0; i < board.boardSize; i++)
-		{
-			for ( int j = 0; j < board.boardSize ; j++ ) 
-			{
-				if( board.getSpace( i, j ) == ' ' )
-				{
-					//Check if that would win
-					test = new GameBoard( board);
-					test.makeMove( i, j, opponentMark  );
-					if(  test.checkWin( opponentMark )  )
-					{
-						board.makeMove( i, j, teamChar );
-						return;
-					}
-				}
-			}
-		}
-
-		//Check center
-		if( board.getSpace( 1,1 ) == ' ' )
-		{		
-			board.makeMove( 1, 1, teamChar );
-			return;
-		}
-
-
-		//Update FreeList
-		freeCounter = 0;
-		for( int x = 0; x < 9; x++)
-		{
-			if( board.getSpace(  (x)/3 , (x)%3  ) == ' ')
-				freeList[ freeCounter++] = x; 
-		}
-
-		Random generator = new Random();
-               	int pick;
-        		pick = generator.nextInt( freeCounter ) ;
-
-        		board.makeMove( freeList[pick]/3, freeList[pick]%3, teamChar);
-	
+//		GameBoard test;
+//		//Check for winning Moves
+//		for( int i = 0; i < board.boardSize; i++)
+//		{
+//			for ( int j = 0; j < board.boardSize ; j++ ) 
+//			{
+//				if( board.getSpace( i, j ) == ' ' )
+//				{
+//					//Check if that would win
+//					test = new GameBoard( board);
+//					test.makeMove( i, j, teamChar );
+//					if(  test.checkWin( teamChar )  )
+//					{
+//						board.makeMove( i, j, teamChar );
+//						return;
+//					}
+//				}
+//			}
+//		}
+//
+//		for( int i = 0; i < board.boardSize; i++)
+//		{
+//			for ( int j = 0; j < board.boardSize ; j++ ) 
+//			{
+//				if( board.getSpace( i, j ) == ' ' )
+//				{
+//					//Check if that would win
+//					test = new GameBoard( board);
+//					test.makeMove( i, j, opponentMark  );
+//					if(  test.checkWin( opponentMark )  )
+//					{
+//						board.makeMove( i, j, teamChar );
+//						return;
+//					}
+//				}
+//			}
+//		}
+//
+//		//Check center
+//		if( board.getSpace( 1,1 ) == ' ' )
+//		{		
+//			board.makeMove( 1, 1, teamChar );
+//			return;
+//		}
+//
+//
+//		//Update FreeList
+//		freeCounter = 0;
+//		for( int x = 0; x < 9; x++)
+//		{
+//			if( board.getSpace(  (x)/3 , (x)%3  ) == ' ')
+//				freeList[ freeCounter++] = x; 
+//		}
+//
+//		Random generator = new Random();
+//               	int pick;
+//        		pick = generator.nextInt( freeCounter ) ;
+//
+//        		board.makeMove( freeList[pick]/3, freeList[pick]%3, teamChar);
+//	
 
 
 	}

@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-//package FSU.COP3252.battleship;
+package FSU.COP3252.battleship;
 
 /*class Ship {
     
@@ -109,10 +103,10 @@ class Submarine extends Ship
     }
 }
 
-class Battleship extends Ship
+class bs extends Ship
 {
 
-    public Battleship( int location, int orientation )
+    public bs( int location, int orientation )
     {
         super( location, orientation, 4);
     }

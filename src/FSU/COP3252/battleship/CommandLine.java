@@ -27,22 +27,16 @@ public class CommandLine {
                     players[i].placeShips( board );
                 
 		int turn = 0;
-		while( !board.gameover() )
+		while( true )
 		{
 			System.out.println( board );
 			players[  turn % maxPlayers ].takeTurn(  board );
 			turn += 1;
 		}
 
-		System.out.println( board);
+		//System.out.println( board);
 
-		if( !board.fullBoard() )
-		{
-			System.out.println( "Player " + ( ( turn - 1)  % 2 + 1) + " won!");
-		}else
-		{
-			System.out.println( "Cat's Game!");
-		}
+
 
 
 	}
