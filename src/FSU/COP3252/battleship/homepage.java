@@ -171,7 +171,7 @@ public class homepage{
 		new_frame.repaint();
 	}
 
-	public void addButtonListeners(gameboard board){
+	public void addButtonListeners(GameBoard board){
 		MyButton[][] board2 = board.getBoard2();
 		MyButton[][] board1 = board.getBoard1();
 		for (int i = 0; i < 10; i++){
