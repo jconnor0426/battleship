@@ -39,7 +39,7 @@ public class homepage{
 	private JMenu gameMenu, helpMenu;
 	private JMenuItem pvp, pvc, cvc, red, blue, green, yellow;
 
-	private gameboard board;
+	private GameBoard board;
 
 	private String[] shipNames = {"carrier", "battleship", "submarine", "destroyer", "patrol boat"};
 	private String[] directionNames = {"Horizontal", "Vertical"};
@@ -127,7 +127,7 @@ public class homepage{
 
 	// --------------- Now in new frame ---------------------------------
 	public void boardFrame(){
-		board = new gameboard();
+		board = new GameBoard();
 		frame = new MainPage();
 
 		frame.add(board, BorderLayout.CENTER);
