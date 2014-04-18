@@ -18,12 +18,12 @@ import java.awt.Insets;
 class GameBoard extends JPanel{
 	public MyButton[][] button_array1 = new MyButton[10][10];
 	public MyButton[][] button_array2 = new MyButton[10][10];
-	public String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-	public JPanel panelEast = new JPanel(new BorderLayout());
-	public JPanel panelWest = new JPanel(new BorderLayout());
-	public JPanel mainPanel = new JPanel(new BorderLayout());
-	public static int players = 2;
-	public static int boardSize = 10;
+	private String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+	private JPanel panelEast = new JPanel(new BorderLayout());
+	private JPanel panelWest = new JPanel(new BorderLayout());
+	private JPanel mainPanel = new JPanel(new BorderLayout());
+	private static int players = 2;
+	private static int boardSize = 10;
 	private ArrayList< Ship > playerShips1 ;
     private ArrayList<Integer> hits1 ;
     private ArrayList<Integer> misses1 ;
@@ -76,8 +76,8 @@ class GameBoard extends JPanel{
 		panelEast.setLayout(new FlowLayout());
 		panelWest.setLayout(new FlowLayout());
 		setSize(500,500);
-		BoardOne board1 = new BoardOne();
-		BoardTwo board2 = new BoardTwo();
+		JPanel board1 = createBoardOne();
+		JPanel board2 = createBoardTwo();
 		panelEast.add(board1);
 		panelWest.add(board2);
 		mainPanel.add(panelEast, BorderLayout.EAST);
@@ -88,96 +88,83 @@ class GameBoard extends JPanel{
 	// Stores button and x,y coordinates
 
 	// Left Board
-	class BoardOne extends JPanel implements ActionListener{
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			setPreferredSize(new Dimension(200,200));
-			GridLayout glayout = new GridLayout(11,10);
-			setLayout(glayout);
+	public JPanel createBoardOne(){
+		JPanel panelOne = new JPanel();
+		panelOne.setPreferredSize(new Dimension(200,200));
+		GridLayout glayout = new GridLayout(11,10);
+		panelOne.setLayout(glayout);
 
-			for (int i = 0; i < 11; i++){
-				if (i == 0){
-					JButton default_button = new JButton("");
-					default_button.setEnabled(false);
-					default_button.setMargin(new Insets(0, 0, 0, 0));
-					add(default_button);
+		for (int i = 0; i < 11; i++){
+			if (i == 0){
+				JButton default_button = new JButton("");
+				default_button.setEnabled(false);
+				default_button.setMargin(new Insets(0, 0, 0, 0));
+				panelOne.add(default_button);
+			}
+			else{
+				JButton letter_button = new JButton(letters[i-1]);
+				letter_button.setEnabled(false);
+				letter_button.setMargin(new Insets(0, 0, 0, 0));
+				panelOne.add(letter_button);
+			}
+			for (int j = 0; j < 10; j++){
+				if (i > 0){
+					// New instance of MyButton
+					button_array1[i-1][j] = new MyButton(i-1, j);
+					//button_array1[i-1][j].addActionListener(this);
+					panelOne.add(button_array1[i-1][j]);
 				}
 				else{
-					JButton letter_button = new JButton(letters[i-1]);
-					letter_button.setEnabled(false);
-					letter_button.setMargin(new Insets(0, 0, 0, 0));
-					add(letter_button);
+					String temp = Integer.toString(j);
+					JButton number_button = new JButton(temp);
+					number_button.setEnabled(false);
+					number_button.setMargin(new Insets(0, 0, 0, 0));
+					panelOne.add(number_button);
 				}
-				for (int j = 0; j < 10; j++){
-					if (i > 0){
-						// New instance of MyButton
-						button_array1[i-1][j] = new MyButton(i-1, j);
-						button_array1[i-1][j].addActionListener(this);
-						add(button_array1[i-1][j]);
-					}
-					else{
-						String temp = Integer.toString(j);
-						JButton number_button = new JButton(temp);
-						number_button.setEnabled(false);
-						number_button.setMargin(new Insets(0, 0, 0, 0));
-						add(number_button);
-					}
-				}
-
 			}
 		}
 
-		public void actionPerformed(ActionEvent e){
-			MyButton button = (MyButton) e.getSource();
-			System.out.println("Board1 - " + button.getColumn() + ":" + letters[button.getRow()]);
-			button.setBackground(Color.BLACK);
-		}
+		return panelOne;
 	}
 
 	// Right board
-	class BoardTwo extends JPanel implements ActionListener{
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			setPreferredSize(new Dimension(200,200));
-			GridLayout glayout = new GridLayout(11,11);
-			setLayout(glayout);
+	public JPanel createBoardTwo(){
+		JPanel panelTwo = new JPanel();
+		panelTwo.setPreferredSize(new Dimension(200,200));
+		GridLayout glayout = new GridLayout(11,11);
+		panelTwo.setLayout(glayout);
 
-			for (int i = 0; i < 11; i++){
-				if (i == 0){
-					JButton default_button = new JButton("");
-					default_button.setEnabled(false);
-					default_button.setMargin(new Insets(0, 0, 0, 0));
-					add(default_button);
+		for (int i = 0; i < 11; i++){
+			if (i == 0){
+				JButton default_button = new JButton("");
+				default_button.setEnabled(false);
+				default_button.setMargin(new Insets(0, 0, 0, 0));
+				panelTwo.add(default_button);
+			}
+			else{
+				JButton letter_button = new JButton(letters[i-1]);
+				letter_button.setEnabled(false);
+				letter_button.setMargin(new Insets(0, 0, 0, 0));
+				panelTwo.add(letter_button);
+			}
+			for (int j = 0; j < 10; j++){
+				if (i > 0){
+					// New instance of MyButton
+					button_array2[i-1][j] = new MyButton(i-1, j);
+					//button_array2[i-1][j].addActionListener(this);
+					panelTwo.add(button_array2[i-1][j]);
 				}
 				else{
-					JButton letter_button = new JButton(letters[i-1]);
-					letter_button.setEnabled(false);
-					letter_button.setMargin(new Insets(0, 0, 0, 0));
-					add(letter_button);
-				}
-				for (int j = 0; j < 10; j++){
-					if (i > 0){
-						// New instance of MyButton
-						button_array2[i-1][j] = new MyButton(i-1, j);
-						button_array2[i-1][j].addActionListener(this);
-						add(button_array2[i-1][j]);
-					}
-					else{
-						String temp = Integer.toString(j);
-						JButton number_button = new JButton(temp);
-						number_button.setEnabled(false);
-						number_button.setMargin(new Insets(0, 0, 0, 0));
-						add(number_button);
-					}
+					String temp = Integer.toString(j);
+					JButton number_button = new JButton(temp);
+					number_button.setEnabled(false);
+					number_button.setMargin(new Insets(0, 0, 0, 0));
+					panelTwo.add(number_button);
 				}
 			}
 		}
 
-		public void actionPerformed(ActionEvent e){
-			MyButton button = (MyButton) e.getSource();
-			System.out.println("Board2 - " + button.getColumn() + ":" + letters[button.getRow()]);
-			button.setBackground(Color.BLACK);
-		}
+		return panelTwo;
 	}
 
 	public MyButton[][] getBoard1(){
