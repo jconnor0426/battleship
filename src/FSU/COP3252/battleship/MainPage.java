@@ -135,4 +135,8 @@ class MainPage extends JFrame{
     		JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
+
+	public boolean getDeploy(){
+		return deploy.isEnabled();
+	}
 }

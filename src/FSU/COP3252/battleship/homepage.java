@@ -24,6 +24,7 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
+import javax.swing.SwingUtilities; 
 
 public class homepage{
 	private JFrame frame = new JFrame("Home Screen");
@@ -32,6 +33,7 @@ public class homepage{
 	private JPanel panel = new JPanel();
 	private JLabel title = new JLabel("BattleShip", JLabel.CENTER);
 	private Font font = new Font("Verdana", Font.BOLD, 40);
+	private String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
 	private JMenuBar menuBar;
 	private JMenu gameMenu, helpMenu;
@@ -40,12 +42,18 @@ public class homepage{
 	private gameboard board;
 
 	private String[] shipNames = {"carrier", "battleship", "submarine", "destroyer", "patrol boat"};
+	private int[] shipSizes = {5, 4, 3, 3, 2};
 	private String[] directionNames = {"Horizontal", "Vertical"};
-	private JButton deploy;
-	private JComboBox<String> shipsList = new JComboBox<String>(shipNames);
-	private JComboBox<String> directionsList = new JComboBox<String>(directionNames);
+
+	public JComboBox<String> shipsList = new JComboBox<String>(shipNames);
+	public JComboBox<String> directionsList = new JComboBox<String>(directionNames);
 	private TitledBorder ships, directions;
 	JPanel shipOptions;
+
+	private MainPage new_frame;
+
+	private String direction = "";
+	private String ship = "";
 
 	public static void main(String[] args){
 		homepage page = new homepage();
@@ -53,6 +61,7 @@ public class homepage{
 	}
 
 	public void create(){
+
 		try{
 			url = new URL("http://hdwallpaper.freehdw.com/0004/3d-abstract" + 
 			"_hdwallpaper_battleship_36265.jpg");
@@ -127,13 +136,19 @@ public class homepage{
 	public void boardFrame(){
 		board = new gameboard();
 		frame = new MainPage();
+		new_frame = (MainPage) frame;
+		shipsList.setEditable(false);
+		directionsList.setEditable(false);
+		shipsList.addActionListener(new comboBoxListener());
+		directionsList.addActionListener(new comboBoxListener());
 
-		frame.add(board, BorderLayout.CENTER);
-	   	frame.setSize(500,500);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setVisible(true);
-	    frame.setResizable(false);
-		frame.repaint();
+		new_frame.add(board, BorderLayout.CENTER);
+	   	new_frame.setSize(500,500);
+	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    new_frame.setVisible(true);
+	    new_frame.setResizable(false);
+		new_frame.repaint();
+		addButtonListeners(board);
 	}
 
 	private class HelpListener implements ActionListener{
@@ -151,19 +166,69 @@ public class homepage{
 
 	public void paintComponent(Graphics g){
 		frame.repaint();
+		new_frame.repaint();
 	}
 
-	public void addButtonListeners(MyButton[][] array){
+	public void addButtonListeners(gameboard board){
+		MyButton[][] board2 = board.getBoard2();
+		MyButton[][] board1 = board.getBoard1();
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
-				array[i][j].addActionListener(new ButtonListener());
+				board2[i][j].addActionListener(new ButtonListener());
+				board1[i][j].addActionListener(new ButtonListener());
 			}
+		}
+	}
+
+	public void checkBounds(int i, int j, String dir, int size){
+		if (dir == "Horizontal"){
+			if ((i + size) > 10){
+				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
+					JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (dir == "Vertical"){
+			if ((j+ size) > 10){
+				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
+					JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private class comboBoxListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			direction = (String)directionsList.getSelectedItem();
+			ship = (String)shipsList.getSelectedItem();
 		}
 	}
 
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			
+			int size = 0;
+			boolean enabled = new_frame.getDeploy();
+			directionsList.setSelectedIndex(1);
+			System.out.println(direction);
+
+			MyButton button = (MyButton) ev.getSource();
+			if (enabled){
+				System.out.println("Board - " + button.getColumn() + ":" + letters[button.getRow()]);
+				button.setBackground(Color.BLACK);
+			}
+			else{
+				for (int i = 0; i < shipNames.length; i++){
+					if (ship == shipNames[i]){
+						size = shipSizes[i];
+					}
+				}
+				if (direction.equals("Horizontal")){
+					button.setBackground(Color.BLACK);
+					checkBounds(button.getRow(), button.getColumn(), direction, size);
+				}
+				else{
+					System.out.println("Vertical");
+					button.setBackground(Color.BLACK);
+					checkBounds(button.getRow(), button.getColumn(), direction, size);
+				}
+			}
 		}
 	}
 }
