@@ -97,10 +97,10 @@ class Submarine extends Ship
     }
 }
 
-class Battleship extends Ship
+class bs extends Ship
 {
 
-    public Battleship( int location, int orientation )
+    public bs( int location, int orientation )
     {
         super( location, orientation, 4);
     }
