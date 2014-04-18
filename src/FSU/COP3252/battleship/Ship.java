@@ -4,14 +4,9 @@
  * and open the template in the editor.
  */
 
-package FSU.COP3252.battleship;
+//package FSU.COP3252.battleship;
 
-
-/**
- *
- * @author Connor
- */
-public class Ship {
+class Ship {
     
     public static int HORIZONTAL = 0;
     public static int VERTICAL = 1;
