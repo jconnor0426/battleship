@@ -63,6 +63,7 @@ public class homepage{
 	private Ship ship;
 
 	public static void main(String[] args){
+                System.out.println( "testing");
 		homepage page = new homepage();
 		page.create();
 	}
