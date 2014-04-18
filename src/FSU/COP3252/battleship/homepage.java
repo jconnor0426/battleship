@@ -44,11 +44,15 @@ public class homepage{
 
 	private GameBoard board;
 
-	private String[] shipNames = {"carrier", "battleship", "submarine", "destroyer", "patrol boat"};
+	private Ship[] shipNames = {new Carrier(),
+                                    new bs(),
+                                    new Submarine(),
+                                    new Destroyer(),
+                                    new PatrolBoat() };
 	private int[] shipSizes = {5, 4, 3, 3, 2};
 	private String[] directionNames = {"Horizontal", "Vertical"};
 
-	public JComboBox<String> shipsList;
+	public JComboBox<Ship> shipsList;
 	public JComboBox<String> directionsList;
 	private TitledBorder ships, directions;
 	JPanel shipOptions;
@@ -207,6 +211,7 @@ public class homepage{
 					}
 				}
 				if (direction.equals("Horizontal")){
+                                    if(!GameObject.placeShip( button.getRow(), button.getColumn() direction))
 					button.setBackground(Color.BLACK);
 					checkBounds(button.getRow(), button.getColumn(), direction, size);
 				}

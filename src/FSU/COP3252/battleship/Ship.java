@@ -1,19 +1,30 @@
 package FSU.COP3252.battleship;
 
-/*class Ship {
+class Ship {
     
     public static int HORIZONTAL = 0;
     public static int VERTICAL = 1;
     
+    protected String name;
+    
     private boolean [] hits;
     private int [] location;
     private int orientation;
-    private int size;
+    protected int size;
     private MyButton[] buttonLocations;
     
+    public Ship()
+    {
+        
+    }
     public Ship(int row, int column, String name, int sizeOfShip, MyButton[][] board){
         // set buttonlocations to the buttons on the board
 
+    }
+    
+    public String toString()
+    {
+        return name + " " + size ;
     }
 
     /*public Ship( int location, int orient, int sizeOfShip )
@@ -64,32 +75,33 @@ package FSU.COP3252.battleship;
     {
         for( int i = 0; i < size; i++ )
             location[i] = start + (10 * i);
-    }
+    }*/
 }
 
 class Destroyer extends Ship
 {
-    public Destroyer( int location, int orientation )
+    public Destroyer ()
     {
-        super( location, orientation, 3);
+        name = "Destroyer";
+        size = 3;
     }
-
 }
 
 class Carrier extends Ship
 {
-
-    public Carrier( int location, int orientation )
+    public Carrier ()
     {
-        super( location, orientation, 5);
+        name = "Carrier";
+        size = 5;
     }
 }
 
 class PatrolBoat extends Ship
 {
-    public PatrolBoat( int location, int orientation )
+    public PatrolBoat ()
     {
-        super( location, orientation, 2);
+        name = "PatrolBoat";
+        size = 2;
     }
 
 }
@@ -97,17 +109,18 @@ class PatrolBoat extends Ship
 class Submarine extends Ship
 {
 
-    public Submarine( int location, int orientation )
+    public Submarine ()
     {
-        super( location, orientation, 3);
+        name = "Submarine";
+        size = 3;
     }
 }
 
 class bs extends Ship
 {
-
-    public bs( int location, int orientation )
+    public bs ()
     {
-        super( location, orientation, 4);
+        name = "Battle Ship";
+        size = 3;
     }
-}*/
+}
