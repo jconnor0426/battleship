@@ -1,4 +1,4 @@
-package FSU.COP3252.battleship;
+
 
 import java.util.Random;
 

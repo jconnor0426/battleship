@@ -1,4 +1,3 @@
-package FSU.COP3252.battleship;
 
 public class Player
 {

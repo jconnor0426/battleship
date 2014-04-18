@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-package FSU.COP3252.battleship;
 
 /**
  *

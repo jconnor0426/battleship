@@ -1,4 +1,4 @@
-package FSU.COP3252.battleship;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -176,6 +176,7 @@ class GameBoard extends JPanel{
 
 class MyButton extends JButton{
 	private int row, column;
+	private boolean occupied, hit;
 
 	public MyButton(int x, int y){
 		column = x;
@@ -188,5 +189,21 @@ class MyButton extends JButton{
 
 	public int getColumn(){
 		return column;
+	}
+
+	public getOccupied(){
+		return occupied;
+	}
+
+	public getHit(){
+		return hit;
+	}
+
+	public setOccupied(boolean b){
+		occupied = b;
+	}
+
+	public setHit(boolean b){
+		hit = b;
 	}
 }
