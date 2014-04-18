@@ -60,7 +60,7 @@ public class homepage{
 	private MainPage new_frame;
 
 	private String direction = "";
-	private String ship = "";
+	private Ship ship;
 
 	public static void main(String[] args){
 		homepage page = new homepage();
@@ -197,7 +197,7 @@ public class homepage{
 			int size = 0;
 			boolean enabled = new_frame.getDeploy();
 			direction = (String)directionsList.getSelectedItem();
-			ship = (String)shipsList.getSelectedItem();
+			ship = (Ship) shipsList.getSelectedItem();
 
 			MyButton button = (MyButton) ev.getSource();
 			if (enabled){
@@ -205,13 +205,8 @@ public class homepage{
 				button.setBackground(Color.BLACK);
 			}
 			else{
-				for (int i = 0; i < shipNames.length; i++){
-					if (ship == shipNames[i]){
-						size = shipSizes[i];
-					}
-				}
 				if (direction.equals("Horizontal")){
-                                    if(!GameObject.placeShip( button.getRow(), button.getColumn() direction))
+//                                    if(!GameObject.placeShip( button.getRow(), button.getColumn() direction))
 					button.setBackground(Color.BLACK);
 					checkBounds(button.getRow(), button.getColumn(), direction, size);
 				}

@@ -24,7 +24,7 @@ public class GameObject {
     }
     
     
-    boolean placeShip( int x, int y, int orientation, int team )
+    boolean placeShip( int x, int y, int orientation, Ship toPlace, int team )
     {
         
         //Try to create ship 
@@ -47,13 +47,15 @@ public class GameObject {
     boolean spotOccupied( int x, int y, int team )
     {
         //Return whether or not a ship occupies that location
-        return game[ team ][x][y].getOccupied();
+        //return game[ team ][x][y].getOccupied();
+        return true;
     }
     
     boolean spotHit( int x, int y, int team )
     {
         //Return whether or not a ship occupies that location
-        return game[ team ][x][y].getOccupied();
+        //return game[ team ][x][y].getOccupied();
+        return true;
     }
     
 }

@@ -58,10 +58,14 @@ class MainPage extends JFrame{
 	private JMenu gameMenu, helpMenu;
 	private JMenuItem pvp, pvc, cvc, red, blue, green, yellow;
 
-	private String[] shipNames = {"carrier", "battleship", "submarine", "destroyer", "patrol boat"};
+	private Ship[] shipNames = {new Carrier(),
+                                    new bs(),
+                                    new Submarine(),
+                                    new Destroyer(),
+                                    new PatrolBoat() };
 	private String[] directionNames = {"Horizontal", "Vertical"};
 	private JButton deploy;
-	private JComboBox<String> shipsList = new JComboBox<String>(shipNames);
+	private JComboBox<Ship> shipsList = new JComboBox<Ship>(shipNames);
 	private JComboBox<String> directionsList = new JComboBox<String>(directionNames);
 	private TitledBorder ships, directions;
 	JPanel shipOptions;
@@ -142,7 +146,7 @@ class MainPage extends JFrame{
 		return deploy.isEnabled();
 	}
 
-	public JComboBox<String> getShipList(){
+	public JComboBox<Ship> getShipList(){
 		return shipsList;
 	}
 
