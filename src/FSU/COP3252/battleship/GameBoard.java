@@ -1,3 +1,5 @@
+package FSU.COP3252.battleship;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;

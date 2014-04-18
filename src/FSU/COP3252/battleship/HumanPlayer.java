@@ -1,3 +1,5 @@
+package FSU.COP3252.battleship;
+
 import java.util.Scanner;
 
 public class HumanPlayer extends Player
