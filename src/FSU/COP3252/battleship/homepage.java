@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 import javax.swing.SwingUtilities; 
+import java.io.File;
 
 public class homepage{
 	private JFrame frame = new JFrame("Home Screen");
@@ -39,14 +40,14 @@ public class homepage{
 	private JMenu gameMenu, helpMenu;
 	private JMenuItem pvp, pvc, cvc, red, blue, green, yellow;
 
-	private gameboard board;
+	private GameBoard board;
 
 	private String[] shipNames = {"carrier", "battleship", "submarine", "destroyer", "patrol boat"};
 	private int[] shipSizes = {5, 4, 3, 3, 2};
 	private String[] directionNames = {"Horizontal", "Vertical"};
 
-	public JComboBox<String> shipsList = new JComboBox<String>(shipNames);
-	public JComboBox<String> directionsList = new JComboBox<String>(directionNames);
+	public JComboBox<String> shipsList;
+	public JComboBox<String> directionsList;
 	private TitledBorder ships, directions;
 	JPanel shipOptions;
 
@@ -61,16 +62,9 @@ public class homepage{
 	}
 
 	public void create(){
-
 		try{
-			url = new URL("http://hdwallpaper.freehdw.com/0004/3d-abstract" + 
-			"_hdwallpaper_battleship_36265.jpg");
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-
-		try{
-	    	frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(url))));
+	    	frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read
+	    		(new File("battleship.jpg")))));
 	   	} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -134,13 +128,11 @@ public class homepage{
 
 	// --------------- Now in new frame ---------------------------------
 	public void boardFrame(){
-		board = new gameboard();
+		board = new GameBoard();
 		frame = new MainPage();
 		new_frame = (MainPage) frame;
-		shipsList.setEditable(false);
-		directionsList.setEditable(false);
-		shipsList.addActionListener(new comboBoxListener());
-		directionsList.addActionListener(new comboBoxListener());
+		shipsList = new_frame.getShipList();
+		directionsList = new_frame.getDirectionList();
 
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
@@ -169,7 +161,7 @@ public class homepage{
 		new_frame.repaint();
 	}
 
-	public void addButtonListeners(gameboard board){
+	public void addButtonListeners(GameBoard board){
 		MyButton[][] board2 = board.getBoard2();
 		MyButton[][] board1 = board.getBoard1();
 		for (int i = 0; i < 10; i++){
@@ -181,12 +173,12 @@ public class homepage{
 	}
 
 	public void checkBounds(int i, int j, String dir, int size){
-		if (dir == "Horizontal"){
+		if (dir.equals("Horizontal")){
 			if ((i + size) > 10){
 				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
 					JOptionPane.ERROR_MESSAGE);
 			}
-		} else if (dir == "Vertical"){
+		} else if (dir.equals("Vertical")){
 			if ((j+ size) > 10){
 				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
 					JOptionPane.ERROR_MESSAGE);
@@ -194,19 +186,12 @@ public class homepage{
 		}
 	}
 
-	private class comboBoxListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
-			direction = (String)directionsList.getSelectedItem();
-			ship = (String)shipsList.getSelectedItem();
-		}
-	}
-
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			int size = 0;
 			boolean enabled = new_frame.getDeploy();
-			directionsList.setSelectedIndex(1);
-			System.out.println(direction);
+			direction = (String)directionsList.getSelectedItem();
+			ship = (String)shipsList.getSelectedItem();
 
 			MyButton button = (MyButton) ev.getSource();
 			if (enabled){

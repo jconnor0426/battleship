@@ -139,4 +139,12 @@ class MainPage extends JFrame{
 	public boolean getDeploy(){
 		return deploy.isEnabled();
 	}
+
+	public JComboBox<String> getShipList(){
+		return shipsList;
+	}
+
+	public JComboBox<String> getDirectionList(){
+		return directionsList;
+	}
 }

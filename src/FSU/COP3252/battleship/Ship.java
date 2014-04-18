@@ -6,7 +6,7 @@
 
 //package FSU.COP3252.battleship;
 
-class Ship {
+/*class Ship {
     
     public static int HORIZONTAL = 0;
     public static int VERTICAL = 1;
@@ -15,8 +15,14 @@ class Ship {
     private int [] location;
     private int orientation;
     private int size;
+    private MyButton[] buttonLocations;
     
-    public Ship( int location, int orient, int sizeOfShip )
+    public Ship(int row, int column, String name, int sizeOfShip, MyButton[][] board){
+        // set buttonlocations to the buttons on the board
+
+    }
+
+    /*public Ship( int location, int orient, int sizeOfShip )
     {
         size = sizeOfShip;
         orientation = orient;
@@ -26,7 +32,7 @@ class Ship {
         for( int i =0; i < size; i++ )
             hits[i] = false;
         
-        /*Set position of the ship */
+        //Set position of the ship
         if(orientation == HORIZONTAL )
         {
             if( validHorizontal( location )  )
@@ -42,9 +48,9 @@ class Ship {
         }else
             setHorizontalPosition(0);
             
-    }
+    }*/
     
-    private boolean validHorizontal( int location )
+    /*private boolean validHorizontal( int location )
     {   
         return ((location + size ) / 10 ) == (location / 10 ) ;  
     }
@@ -110,4 +116,4 @@ class Battleship extends Ship
     {
         super( location, orientation, 4);
     }
-}
+}*/

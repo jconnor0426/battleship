@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.awt.Insets;
 
 
-class gameboard extends JPanel{
+class GameBoard extends JPanel{
 	public MyButton[][] button_array1 = new MyButton[10][10];
 	public MyButton[][] button_array2 = new MyButton[10][10];
 	private String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
@@ -22,24 +22,22 @@ class gameboard extends JPanel{
 	private JPanel mainPanel = new JPanel(new BorderLayout());
 	private static int players = 2;
 	private static int boardSize = 10;
-	private ArrayList< Ship > playerShips1 ;
     private ArrayList<Integer> hits1 ;
     private ArrayList<Integer> misses1 ;
-	private ArrayList< Ship > playerShips2 ;
     private ArrayList<Integer> hits2 ;
     private ArrayList<Integer> misses2 ;
 	
 
-	public gameboard()
+	public GameBoard()
 	{
-	    for( int i = 0; i < players; i++ ) {
+	    /*for( int i = 0; i < players; i++ ) {
 			playerShips1 = new ArrayList< Ship >(5);
             hits1 = new ArrayList<Integer>(100);
             misses1 = new ArrayList<Integer>(100);
             playerShips2 = new ArrayList< Ship >(5);
             hits2 = new ArrayList<Integer>(100);
             misses2 = new ArrayList<Integer>(100);
-	    }
+	    }*/
 	    createPanel();
 	}
 
