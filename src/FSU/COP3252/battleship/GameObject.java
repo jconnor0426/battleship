@@ -16,7 +16,7 @@ public class GameObject {
     public static int HORIZONTAL = Ship.HORIZONTAL;
     public static int VERTICAL = Ship.VERTICAL;
     
-    public static int GAMESIZE = 9;
+    public static int GAMESIZE = 10;
     
     
     MyButton [] [][] game = new MyButton[2][10][10];
@@ -70,6 +70,8 @@ public class GameObject {
             if( ! validVertical( y, toPlace.getSize() ) )
                 return false;
         }
+
+        System.out.println("x: " + x + "\ty:" + y);
         
         
         //Try to place 
@@ -87,6 +89,7 @@ public class GameObject {
     boolean validHorizontal( int x, int size )
     {
         return x + size < GAMESIZE;
+        
     }
     
     boolean validVertical( int y, int size )
@@ -102,7 +105,6 @@ public class GameObject {
     
     boolean spotOccupied( int x, int y, int team )
     {
-        System.out.println(x + ":" + y);
         //Return whether or not a ship occupies that location
         return game[ team ][x][y].getOccupied();        
     }
