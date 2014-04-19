@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class GameObject {
     
-    public static int HORIZONTAL = 0;
-    public static int VERTICAL = 1;
+    public static int HORIZONTAL = Ship.HORIZONTAL;
+    public static int VERTICAL = Ship.VERTICAL;
     
     public static int GAMESIZE = 10;
     
