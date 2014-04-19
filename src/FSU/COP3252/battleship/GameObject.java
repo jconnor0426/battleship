@@ -29,12 +29,15 @@ public class GameObject {
         game[0] = team0Buttons;
         game[1] = team1Buttons;
         
+        playerShips = new ArrayList< ArrayList < Ship > >() ;
         playerShips.add( new ArrayList< Ship >(0) );
         playerShips.add( new ArrayList< Ship >(0) );
         
+        hits = new ArrayList< ArrayList< Integer > >();
         hits.add( new ArrayList< Integer > (0 ) );
         hits.add( new ArrayList< Integer > (0 ) );
         
+        misses = new ArrayList< ArrayList< Integer > >();
         misses.add( new ArrayList< Integer > (0 ) );
         misses.add( new ArrayList< Integer > (0 ) );
     }
