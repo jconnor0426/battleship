@@ -19,8 +19,8 @@ public class GameObject {
     public static int GAMESIZE = 10;
     
     
-    MyButton [] [][] game;
-    ArrayList< Ship > [] playerShips;
+    MyButton [] [][] game = new MyButton[2][10][10];
+    ArrayList< ArrayList < Ship > > playerShips;
     ArrayList< Integer > [] hits;
     ArrayList< Integer > [] misses;
     
