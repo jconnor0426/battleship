@@ -28,6 +28,7 @@ public class GameObject {
         
         //Try to create ship 
         
+        
         //Try to place 
         
         //If bad placement return false

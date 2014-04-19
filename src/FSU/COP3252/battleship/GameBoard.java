@@ -191,19 +191,19 @@ class MyButton extends JButton{
 		return column;
 	}
 
-	public getOccupied(){
+	public boolean getOccupied(){
 		return occupied;
 	}
 
-	public getHit(){
+	public boolean getHit(){
 		return hit;
 	}
 
-	public setOccupied(boolean b){
+	public void setOccupied(boolean b){
 		occupied = b;
 	}
 
-	public setHit(boolean b){
+	public void setHit(boolean b){
 		hit = b;
 	}
 }
