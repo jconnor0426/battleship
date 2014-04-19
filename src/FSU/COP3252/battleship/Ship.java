@@ -55,7 +55,7 @@ class Destroyer extends Ship
     {
         name = "Destroyer";
         size = 3;
-        hits = boolean[size];
+        hits = new boolean[size];
     }
 }
 
@@ -65,7 +65,7 @@ class Carrier extends Ship
     {
         name = "Carrier";
         size = 5;
-        hits = boolean[size];
+        hits = new boolean[size];
     }
 }
 
@@ -75,7 +75,7 @@ class PatrolBoat extends Ship
     {
         name = "PatrolBoat";
         size = 2;
-        hits = boolean[size];
+        hits = new boolean[size];
     }
 
 }
@@ -87,7 +87,7 @@ class Submarine extends Ship
     {
         name = "Submarine";
         size = 3;
-        hits = boolean[size];
+        hits = new boolean[size];
     }
 }
 
@@ -97,6 +97,6 @@ class bs extends Ship
     {
         name = "Battle Ship";
         size = 3;
-        hits = boolean[size];
+        hits = new boolean[size];
     }
 }
