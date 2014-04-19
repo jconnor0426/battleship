@@ -221,9 +221,9 @@ public class homepage{
 
 				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
 					playersShips = gameObject.getShipsToDraw(0);
-					/*for (int i = 0; i < playersShips.size(); i++){
-						System.out.print(playersShips.get(i));
-					}*/
+					for (int i = 0; i < playersShips.size(); i++){
+						colorButtons(playersShips.get(i));
+					}
 				}
 			}
 		}
