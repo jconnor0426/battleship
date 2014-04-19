@@ -105,6 +105,7 @@ public class GameObject {
     
     boolean spotOccupied( int x, int y, int team )
     {
+        System.out.println(x + ":" + y);
         //Return whether or not a ship occupies that location
         return game[ team ][x][y].getOccupied();        
     }
@@ -135,6 +136,11 @@ public class GameObject {
         }
         
         return true;
+    }
+    
+    public MyButton [][] getButtonForTeam( int team )
+    {
+        return game[team];
     }
     
 }
