@@ -71,6 +71,8 @@ public class GameObject {
             if( ! validVertical( y, toPlace.getSize() ) )
                 return false;
         }
+
+        System.out.println("x: " + x + "\ty:" + y);
         
         
         //Try to place 
@@ -103,7 +105,6 @@ public class GameObject {
     
     boolean spotOccupied( int x, int y, int team )
     {
-        System.out.println(x + ":" + y);
         //Return whether or not a ship occupies that location
         return game[ team ][x][y].getOccupied();        
     }
