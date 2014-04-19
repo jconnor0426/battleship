@@ -90,7 +90,10 @@ public class GameObject {
     boolean validHorizontal( int x, int size )
     {
         return x + size <= GAMESIZE;
+<<<<<<< HEAD
         
+=======
+>>>>>>> 8827cb482f1eb8d4b4fd90e3023962c51759b1d9
     }
     
     boolean validVertical( int y, int size )

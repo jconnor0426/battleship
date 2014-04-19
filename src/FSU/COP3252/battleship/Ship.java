@@ -100,7 +100,7 @@ class bs extends Ship
     public bs ()
     {
         name = "Battle Ship";
-        size = 3;
+        size = 4;
         hits = new boolean[size];
     }
 }
