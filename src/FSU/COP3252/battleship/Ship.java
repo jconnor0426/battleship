@@ -46,9 +46,14 @@ class Ship {
     public void setOrientation(int o){
         orientation = o;
     }
+<<<<<<< HEAD
 
     public int getOrientation(){
         return orientation;
+=======
+    public int getOrientation(){
+        return orientation ;
+>>>>>>> 5f99978fe793e681a49323be9141992e3e80cc8c
     }
 }
 
