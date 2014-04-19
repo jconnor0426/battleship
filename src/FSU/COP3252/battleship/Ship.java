@@ -7,17 +7,14 @@ class Ship {
     protected String name;
     
     private boolean [] hits;
-    private int [] location;
     private int orientation;
     protected int size;
     private MyButton[] buttonLocations;
+    private int x;
+    private int y;
     
     public Ship()
     {
-        
-    }
-    public Ship(int row, int column, String name, int sizeOfShip, MyButton[][] board){
-        // set buttonlocations to the buttons on the board
 
     }
     
@@ -26,63 +23,31 @@ class Ship {
         return name + " " + size ;
     }
 
-    /*public Ship( int location, int orient, int sizeOfShip )
-    {
-        size = sizeOfShip;
-        orientation = orient;
-        
-        //Initialize to un-hit 
-        hits = new boolean[size];
-        for( int i =0; i < size; i++ )
-            hits[i] = false;
-        
-        //Set position of the ship
-        if(orientation == HORIZONTAL )
-        {
-            if( validHorizontal( location )  )
-                setHorizontalPosition(location);
-            else
-                setHorizontalPosition(0);
-        }else if( orientation == VERTICAL)
-        {
-            if( validVertical(location) )
-                setVerticalPosition(location);
-            else
-                setVerticalPosition(0);
-        }else
-            setHorizontalPosition(0);
-            
-    }*/
-    
-    /*private boolean validHorizontal( int location )
-    {   
-        return ((location + size ) / 10 ) == (location / 10 ) ;  
+    public int getSize(){
+        return size;
     }
-    
-    private void setHorizontalPosition( int start )
-    {
-        for( int i = 0; i < size; i++ )
-            location[i] = start + i;
+
+    public void setRow(int row){
+        x = row;
     }
-    
-    private boolean validVertical( int location )
-    {
-        return  ( (location + size ) %10) == (location % 10 )  ;
+
+    public void setColumn(int column){
+        y = column;
     }
-    
-    private void setVerticalPosition( int start )
-    {
-        for( int i = 0; i < size; i++ )
-            location[i] = start + (10 * i);
-    }*/
+
+    public void setOrientation(int o){
+        orientation = o;
+    }
 }
 
 class Destroyer extends Ship
 {
+
     public Destroyer ()
     {
         name = "Destroyer";
         size = 3;
+        hits = boolean[size];
     }
 }
 
@@ -92,6 +57,7 @@ class Carrier extends Ship
     {
         name = "Carrier";
         size = 5;
+        hits = boolean[size];
     }
 }
 
@@ -101,6 +67,7 @@ class PatrolBoat extends Ship
     {
         name = "PatrolBoat";
         size = 2;
+        hits = boolean[size];
     }
 
 }
@@ -112,6 +79,7 @@ class Submarine extends Ship
     {
         name = "Submarine";
         size = 3;
+        hits = boolean[size];
     }
 }
 
@@ -121,5 +89,6 @@ class bs extends Ship
     {
         name = "Battle Ship";
         size = 3;
+        hits = boolean[size];
     }
 }

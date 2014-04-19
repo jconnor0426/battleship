@@ -54,6 +54,7 @@ public class GameObject {
                 return false;
         }
         
+        
         //Try to place 
         if( ! checkValid(  toPlace, team ) )
             return false;
