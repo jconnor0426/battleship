@@ -240,6 +240,8 @@ public class homepage{
 				for (int i = row; i < row + shipToDraw.getSize(); i++){
 					board1[column][i].setOccupied(true);
 					board1[column][i].setBackground(Color.BLACK);
+                                        board1[column][i].setOpaque(true);
+                                        board1[column][i].setBorderPainted(false);
 				}
 			} else if (orientation == Ship.VERTICAL){
 
