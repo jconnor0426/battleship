@@ -218,11 +218,12 @@ public class homepage{
 
 			// If all ships aren't placed on board yet
 			if (!enabled){
-				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 1)){
-					playersShips = gameObject.getShipsToDraw(1);
-					for (int i = 0; i < playersShips.size(); i++){
+
+				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
+					playersShips = gameObject.getShipsToDraw(0);
+					/*for (int i = 0; i < playersShips.size(); i++){
 						System.out.print(playersShips.get(i));
-					}
+					}*/
 				}
 			}
 		}

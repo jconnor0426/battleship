@@ -89,7 +89,7 @@ class GameBoard extends JPanel{
 	public JPanel createBoardOne(){
 		JPanel panelOne = new JPanel();
 		panelOne.setPreferredSize(new Dimension(200,200));
-		GridLayout glayout = new GridLayout(11,10);
+		GridLayout glayout = new GridLayout(11,11);
 		panelOne.setLayout(glayout);
 
 		for (int i = 0; i < 11; i++){

@@ -16,7 +16,7 @@ public class GameObject {
     public static int HORIZONTAL = Ship.HORIZONTAL;
     public static int VERTICAL = Ship.VERTICAL;
     
-    public static int GAMESIZE = 10;
+    public static int GAMESIZE = 9;
     
     
     MyButton [] [][] game = new MyButton[2][10][10];
@@ -28,6 +28,14 @@ public class GameObject {
     {
         game[0] = team0Buttons;
         game[1] = team1Buttons;
+
+        /*for (int k = 0; k < 1; k++){
+            for (int i= 0; i < 10; i++){
+                for (int j = 0; j < 10; j++){
+                    System.out.println(game[k][i][j].getRow() + ":" + game[k][i][j].getColumn());
+                }
+            }
+        }*/
         
         playerShips = new ArrayList< ArrayList < Ship > >() ;
         playerShips.add( new ArrayList< Ship >(0) );
@@ -78,12 +86,12 @@ public class GameObject {
     
     boolean validHorizontal( int x, int size )
     {
-        return x + size > GAMESIZE;
+        return x + size < GAMESIZE;
     }
     
     boolean validVertical( int y, int size )
     {
-        return y + size > GAMESIZE;
+        return y + size < GAMESIZE;
     }
     
     
@@ -94,6 +102,7 @@ public class GameObject {
     
     boolean spotOccupied( int x, int y, int team )
     {
+        System.out.println(x + ":" + y);
         //Return whether or not a ship occupies that location
         return game[ team ][x][y].getOccupied();        
     }
