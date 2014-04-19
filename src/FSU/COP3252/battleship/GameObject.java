@@ -59,6 +59,7 @@ public class GameObject {
         toPlace.setRow( x );
         toPlace.setColumn( y );
         toPlace.setOrientation( orientation );
+        System.out.println("BEFORE CHECKS: " + x + ":" + y);
         
         //Try to create ship 
         if( orientation == HORIZONTAL )
@@ -122,14 +123,14 @@ public class GameObject {
         {
             for( int i = 0; i < toCheck.getSize(); i++ )
             {
-                if( spotOccupied( toCheck.getRow(), toCheck.getColumn() + i, team ) )
+                if( spotOccupied( toCheck.getRow()+i, toCheck.getColumn() , team ) )
                     return false;
             }
         }else
         {
            for( int i = 0; i < toCheck.getSize(); i++ )
             {
-                if( spotOccupied( toCheck.getRow() + i, toCheck.getColumn(), team ) )
+                if( spotOccupied( toCheck.getRow() , toCheck.getColumn() + i, team ) )
                     return false;
             } 
         }
