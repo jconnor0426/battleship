@@ -21,16 +21,22 @@ public class GameObject {
     
     MyButton [] [][] game = new MyButton[2][10][10];
     ArrayList< ArrayList < Ship > > playerShips;
-    ArrayList< Integer > [] hits;
-    ArrayList< Integer > [] misses;
+    ArrayList< ArrayList< Integer > > hits;
+    ArrayList< ArrayList< Integer > > misses;
     
     public GameObject( MyButton[][] team0Buttons, MyButton[][] team1Buttons )
     {
         game[0] = team0Buttons;
         game[1] = team1Buttons;
         
-        playerShips[0] = new ArrayList< Ship >(0);
-        playerShips[1] = new ArrayList< Ship >(0);
+        playerShips.add( new ArrayList< Ship >(0) );
+        playerShips.add( new ArrayList< Ship >(0) );
+        
+        hits.add( new ArrayList< Integer > (0 ) );
+        hits.add( new ArrayList< Integer > (0 ) );
+        
+        misses.add( new ArrayList< Integer > (0 ) );
+        misses.add( new ArrayList< Integer > (0 ) );
     }
     
     
@@ -60,7 +66,7 @@ public class GameObject {
             return false;
 
         //If good placement add ship to team array
-        playerShips[team].add(toPlace );
+        playerShips.get(team).add(toPlace );
         
         //return true
         
@@ -80,7 +86,7 @@ public class GameObject {
     
     ArrayList< Ship > getShipsToDraw( int team )
     {
-        return playerShips[ team ];
+        return playerShips.get( team );
     }
     
     boolean spotOccupied( int x, int y, int team )
