@@ -50,6 +50,11 @@ class Ship {
     public int getOrientation(){
         return orientation ;
     }
+    
+    public String getName()
+    {
+        return name;
+    }
 }
 
 class Destroyer extends Ship

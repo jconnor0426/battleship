@@ -149,7 +149,10 @@ public class homepage{
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
 
-		gameObject = new GameObject(board.getBoard1(), board.getBoard2());
+                board1 = board.getBoard2();
+		board2 = board.getBoard1();
+                
+		gameObject = new GameObject(board1, board2);
 
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
@@ -179,8 +182,7 @@ public class homepage{
 	}
 
 	public void addButtonListeners(GameBoard board){
-		board1 = board.getBoard2();
-		board2 = board.getBoard1();
+
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
 				board2[i][j].addActionListener(new ButtonListener());
@@ -249,6 +251,8 @@ public class homepage{
 				for (int i = column; i < column + shipToDraw.getSize(); i++){
 					board1[i][row].setOccupied(true);
 					board1[i][row].setBackground(Color.BLACK);
+                                        board1[i][row].setOpaque(true);
+                                        board1[i][row].setBorderPainted(false);
 				}
 			}
 		} else if (team == 1){

@@ -54,7 +54,14 @@ public class GameObject {
     boolean placeShip( int x, int y, int orientation, Ship toPlace, int team )
     {
         //Check to see if the ship is already on the board
-        
+        for( int i = 0; i < playerShips.get(team).size(); i++ )
+        {
+            
+            if( toPlace.getName().equals( playerShips.get(team).get(i).getName() ) )
+            {
+                playerShips.get(team).remove(playerShips.get(team).get(i) );
+            }
+        }
         
         toPlace.setRow( x );
         toPlace.setColumn( y );
@@ -107,7 +114,7 @@ public class GameObject {
     {
         System.out.println(x + ":" + y);
         //Return whether or not a ship occupies that location
-        return game[ team ][x][y].getOccupied();        
+        return game[ team ][y][x].getOccupied();        
     }
     
     boolean spotHit( int x, int y, int team )
