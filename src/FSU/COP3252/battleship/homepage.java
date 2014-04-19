@@ -66,6 +66,9 @@ public class homepage{
 	private int orientation = 0;
 	private ArrayList<Ship> playersShips;
 
+	private MyButton[][] board1;
+	private MyButton[][] board2;
+
 
 
 	public static void main(String[] args){
@@ -176,8 +179,8 @@ public class homepage{
 	}
 
 	public void addButtonListeners(GameBoard board){
-		MyButton[][] board2 = board.getBoard2();
-		MyButton[][] board1 = board.getBoard1();
+		board1 = board.getBoard2();
+		board2 = board.getBoard1();
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
 				board2[i][j].addActionListener(new ButtonListener());
@@ -222,15 +225,28 @@ public class homepage{
 				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
 					playersShips = gameObject.getShipsToDraw(0);
 					for (int i = 0; i < playersShips.size(); i++){
-						colorButtons(playersShips.get(i));
+						colorButtons(playersShips.get(i), 0);
 					}
 				}
 			}
 		}
 	}
 
-	public void colorButtons(Ship shipToDraw){
+	public void colorButtons(Ship shipToDraw, int team){
+		if (team == 0){
+			if (orientation == Ship.HORIZONTAL){
+				int row = shipToDraw.getRow();
+				int column = shipToDraw.getColumn();
+				for (int i = row; i < row + shipToDraw.getSize(); i++){
+					board1[column][i].setOccupied(true);
+					board1[column][i].setBackground(Color.BLACK);
+				}
+			} else if (orientation == Ship.VERTICAL){
 
+			}
+		} else if (team == 1){
+
+		}
 	}
 }
 
