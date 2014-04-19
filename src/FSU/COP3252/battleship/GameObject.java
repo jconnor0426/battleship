@@ -58,7 +58,7 @@ public class GameObject {
         //Try to place 
         if( ! checkValid(  toPlace, team ) )
             return false;
-        
+
         //If good placement add ship to team array
         playerShips[team].add(toPlace );
         

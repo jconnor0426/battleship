@@ -6,8 +6,8 @@ class Ship {
     
     protected String name;
     
-    private boolean [] hits;
-    private int orientation;
+    protected boolean [] hits;
+    protected int orientation;
     protected int size;
     private MyButton[] buttonLocations;
     private int x;
@@ -45,6 +45,10 @@ class Ship {
 
     public void setOrientation(int o){
         orientation = o;
+    }
+
+    public int getOrientation(){
+        return orientation;
     }
 }
 
