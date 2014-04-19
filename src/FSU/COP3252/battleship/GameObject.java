@@ -87,12 +87,12 @@ public class GameObject {
     
     boolean validHorizontal( int x, int size )
     {
-        return x + size < GAMESIZE;
+        return x + size <= GAMESIZE;
     }
     
     boolean validVertical( int y, int size )
     {
-        return y + size < GAMESIZE;
+        return y + size <= GAMESIZE;
     }
     
     
