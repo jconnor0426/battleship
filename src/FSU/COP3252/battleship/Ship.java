@@ -35,6 +35,14 @@ class Ship {
         y = column;
     }
 
+    public int getRow(){
+        return x;
+    }
+
+    public int getColumn(){
+        return y;
+    }
+
     public void setOrientation(int o){
         orientation = o;
     }
