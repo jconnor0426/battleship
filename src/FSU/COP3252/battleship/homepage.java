@@ -242,7 +242,12 @@ public class homepage{
 					board1[column][i].setBackground(Color.BLACK);
 				}
 			} else if (orientation == Ship.VERTICAL){
-
+				int row = shipToDraw.getRow();
+				int column = shipToDraw.getColumn();
+				for (int i = column; i < column + shipToDraw.getSize(); i++){
+					board1[i][row].setOccupied(true);
+					board1[i][row].setBackground(Color.BLACK);
+				}
 			}
 		} else if (team == 1){
 
