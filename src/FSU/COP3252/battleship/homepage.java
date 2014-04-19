@@ -28,6 +28,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 import javax.swing.SwingUtilities; 
 import java.io.File;
+import java.util.ArrayList;
 
 public class homepage{
 	private JFrame frame = new JFrame("Home Screen");
@@ -43,6 +44,7 @@ public class homepage{
 	private JMenuItem pvp, pvc, cvc, red, blue, green, yellow;
 
 	private GameBoard board;
+	private GameObject gameObject;
 
 	private Ship[] shipNames = {new Carrier(),
                                     new bs(),
@@ -61,9 +63,12 @@ public class homepage{
 
 	private String direction = "";
 	private Ship ship;
+	private int orientation = 0;
+	private ArrayList<Ship> playersShips;
+
+
 
 	public static void main(String[] args){
-                System.out.println( "testing");
 		homepage page = new homepage();
 		page.create();
 	}
@@ -141,6 +146,8 @@ public class homepage{
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
 
+		gameObject = new GameObject(board.getBoard1(), board.getBoard2());
+
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
 	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -179,7 +186,7 @@ public class homepage{
 		}
 	}
 
-	public void checkBounds(int i, int j, String dir, int size){
+	/*public void checkBounds(int i, int j, String dir, int size){
 		if (dir.equals("Horizontal")){
 			if ((i + size) > 10){
 				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
@@ -191,7 +198,7 @@ public class homepage{
 					JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	}
+	}*/
 
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -200,24 +207,29 @@ public class homepage{
 			direction = (String)directionsList.getSelectedItem();
 			ship = (Ship) shipsList.getSelectedItem();
 
-			MyButton button = (MyButton) ev.getSource();
-			if (enabled){
-				System.out.println("Board - " + button.getColumn() + ":" + letters[button.getRow()]);
-				button.setBackground(Color.BLACK);
+			// Check direction to assign int to orientation
+			if (direction.equals("Horizontal")){
+				orientation = 0;
+			} else if (direction.equals("Vertical")){
+				orientation = 1;
 			}
-			else{
-				if (direction.equals("Horizontal")){
-//                                    if(!GameObject.placeShip( button.getRow(), button.getColumn() direction))
-					button.setBackground(Color.BLACK);
-					checkBounds(button.getRow(), button.getColumn(), direction, size);
-				}
-				else{
-					System.out.println("Vertical");
-					button.setBackground(Color.BLACK);
-					checkBounds(button.getRow(), button.getColumn(), direction, size);
+
+			MyButton button = (MyButton) ev.getSource();
+
+			// If all ships aren't placed on board yet
+			if (!enabled){
+				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 1)){
+					playersShips = gameObject.getShipsToDraw(1);
+					for (int i = 0; i < playersShips.size(); i++){
+						//System.out.print(playersShips[i]);
+					}
 				}
 			}
 		}
+	}
+
+	public void colorButtons(Ship shipToDraw){
+
 	}
 }
 

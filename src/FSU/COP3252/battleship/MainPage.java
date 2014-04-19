@@ -141,6 +141,10 @@ class MainPage extends JFrame{
 		}
 	}
 
+	public void setDeploy(){
+		deploy.setEnabled(true);
+	}
+
 	public boolean getDeploy(){
 		return deploy.isEnabled();
 	}
