@@ -16,7 +16,7 @@ public class GameObject {
     public static int HORIZONTAL = Ship.HORIZONTAL;
     public static int VERTICAL = Ship.VERTICAL;
     
-    public static int GAMESIZE = 9;
+    public static int GAMESIZE = 10;
     
     
     MyButton [] [][] game = new MyButton[2][10][10];
@@ -59,6 +59,7 @@ public class GameObject {
         toPlace.setRow( x );
         toPlace.setColumn( y );
         toPlace.setOrientation( orientation );
+        System.out.println("BEFORE CHECKS: " + x + ":" + y);
         
         //Try to create ship 
         if( orientation == HORIZONTAL )
@@ -120,14 +121,14 @@ public class GameObject {
         {
             for( int i = 0; i < toCheck.getSize(); i++ )
             {
-                if( spotOccupied( toCheck.getRow(), toCheck.getColumn() + i, team ) )
+                if( spotOccupied( toCheck.getRow()+i, toCheck.getColumn() , team ) )
                     return false;
             }
         }else
         {
            for( int i = 0; i < toCheck.getSize(); i++ )
             {
-                if( spotOccupied( toCheck.getRow() + i, toCheck.getColumn(), team ) )
+                if( spotOccupied( toCheck.getRow() , toCheck.getColumn() + i, team ) )
                     return false;
             } 
         }
