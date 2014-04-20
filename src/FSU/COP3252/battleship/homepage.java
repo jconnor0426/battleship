@@ -157,7 +157,8 @@ public class homepage{
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
                 
-		gameObject = new GameObject(board1, board2);
+		gameObject = new HumanVsComputer(board1, board2);
+
                 //Have the CPU player set their ships
                 //CPU player is always team 1
                 //Human Player is always team 0
@@ -193,56 +194,61 @@ public class homepage{
 
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
-				board2[i][j].addActionListener(new ButtonListener());
 				board1[i][j].addActionListener(new ButtonListener());
+				board2[i][j].addActionListener(new ButtonListener());
 			}
 		}
 	}
 
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			int size = 0;
-			direction = (String)directionsList.getSelectedItem();
-			ship = (Ship) shipsList.getSelectedItem();
-
-			// Check direction to assign int to orientation
-			if (direction.equals("Horizontal")){
-				orientation = 0;
-			} else if (direction.equals("Vertical")){
-				orientation = 1;
-			}
-
 			MyButton button = (MyButton) ev.getSource();
+			if (!deploy.isEnabled()){
+				int size = 0;
+				direction = (String)directionsList.getSelectedItem();
+				ship = (Ship) shipsList.getSelectedItem();
 
-			if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
-				
-				// Repainting the board to default before redrawing the ships
-				for (int i = 0; i < 10; i++){
-					for (int j = 0; j < 10; j++){
-						board1[i][j].setBackground(null);
-						board1[i][j].setOpaque(false);
-						board1[i][j].setBorderPainted(true);
+				// Check direction to assign int to orientation
+				if (direction.equals("Horizontal")){
+					orientation = 0;
+				} else if (direction.equals("Vertical")){
+					orientation = 1;
+				}
+
+
+				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
+					
+					// Repainting the board to default before redrawing the ships
+					for (int i = 0; i < 10; i++){
+						for (int j = 0; j < 10; j++){
+							board1[i][j].setBackground(null);
+							board1[i][j].setOpaque(false);
+							board1[i][j].setBorderPainted(true);
+						}
+					}
+
+					playersShips = gameObject.getShipsToDraw(0);
+	                                boolean DEBUG = false;
+	                                if(DEBUG )
+	                                {
+	                                    ArrayList<Ship> cpuShips = gameObject.getShipsToDraw(1);
+
+	                                    for (Ship cpuShip : cpuShips) {
+	                                        colorButtons(cpuShip, 1);
+	                                    }
+	                                }
+	                                
+					if (playersShips.size() == 5){
+						deploy.setEnabled(true);
+					}
+
+					for (int i = 0; i < playersShips.size(); i++){
+						colorButtons(playersShips.get(i), 0);
 					}
 				}
-
-				playersShips = gameObject.getShipsToDraw(0);
-                                boolean DEBUG = false;
-                                if(DEBUG )
-                                {
-                                    ArrayList<Ship> cpuShips = gameObject.getShipsToDraw(1);
-
-                                    for (Ship cpuShip : cpuShips) {
-                                        colorButtons(cpuShip, 1);
-                                    }
-                                }
-                                
-				if (playersShips.size() == 5){
-					deploy.setEnabled(true);
-				}
-
-				for (int i = 0; i < playersShips.size(); i++){
-					colorButtons(playersShips.get(i), 0);
-				}
+			} else{
+				System.out.println("true");
+				gameObject.takeTurn(button.getRow(), button.getColumn(), 0, 1);
 			}
 		}
 	}
