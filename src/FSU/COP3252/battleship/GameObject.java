@@ -160,13 +160,15 @@ public class GameObject {
         {
             for( int i = 0; i < toRemove.getSize(); i++ )
             {
-                game[team][ toRemove.getRow()+i][toRemove.getColumn()].setOccupied(false);
+                System.out.println( "DEBUGGING REMOVE: " +toRemove.getRow()+i +":"+toRemove.getColumn());
+                game[team][ toRemove.getColumn()][toRemove.getRow()+i].setOccupied(false);
             }
         }else
         {
            for( int i = 0; i < toRemove.getSize(); i++ )
             {
-                game[team][ toRemove.getRow()][toRemove.getColumn() + i].setOccupied(false);
+                System.out.println( "DEBUGGING REMOVE: " +toRemove.getRow() +":"+toRemove.getColumn()+i);
+                game[team][ toRemove.getColumn()+i][toRemove.getRow()].setOccupied(false);
             } 
         } 
     }
