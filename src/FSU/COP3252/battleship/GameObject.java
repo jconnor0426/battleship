@@ -25,7 +25,7 @@ public class GameObject {
     MyButton [] [][] game = new MyButton[2][10][10];
     ArrayList< ArrayList < Ship > > playerShips;
     private int [] hits;
-    ArrayList< ArrayList< Integer > > misses;
+    private int [] misses;
     
     public GameObject( MyButton[][] team0Buttons, MyButton[][] team1Buttons )
     {
@@ -48,9 +48,9 @@ public class GameObject {
         hits[0] =0;
         hits[1] =0;
         
-        misses = new ArrayList< ArrayList< Integer > >();
-        misses.add( new ArrayList< Integer > (0 ) );
-        misses.add( new ArrayList< Integer > (0 ) );
+        misses = new int[2];
+        misses[0] =0;
+        misses[1] =0;
     }
     
     
@@ -133,8 +133,8 @@ public class GameObject {
     boolean spotHit( int x, int y, int team )
     {
         //Return whether or not a ship occupies that location
-        //return game[ team ][x][y].getOccupied();
-        return true;
+        System.out.println("SPOT HIT? "+x + ":" + y + game[ team ][y][x].getHit());
+        return game[ team ][y][x].getHit();
     }
     
     boolean checkValid(  Ship toCheck , int team  )
@@ -234,12 +234,13 @@ public class GameObject {
     }
     
     //Returns true for successful attack
-    //Returns false if it was a miss or duplicate value
+    //Returns false if it was a duplicate value
     public boolean takeTurn(int x, int y, int team, int teamToAttack )
     {
+
         //!Occupided + !Hit = noColor
         //!Occupied + Hit = Miss Color
-        //Occupied + Hit = Red
+        //Occupied + Hit = Red  
         
         //See if that spot has been hit already
         if( spotHit( x, y, teamToAttack ) )
@@ -247,11 +248,14 @@ public class GameObject {
             return false;
         }else
         {
+            System.out.println("DEBUG AM I ON?");
             //If occupied 
             if( spotOccupied(x,y, teamToAttack) )
             {
                 game[teamToAttack][y][x].setHit(true);
-                game[teamToAttack][y][x].setBackground(Color.red);
+                game[teamToAttack][y][x].setBackground(Color.RED);
+                game[teamToAttack][y][x].setOpaque(true);
+                game[teamToAttack][y][x].setBorderPainted(false);
                 hits[team]++;
                 return true;
             }
@@ -260,7 +264,9 @@ public class GameObject {
             {
                 game[teamToAttack][y][x].setHit(true);
                 game[teamToAttack][y][x].setBackground(Color.BLUE);
-                return false;
+                game[teamToAttack][y][x].setOpaque(true);
+                game[teamToAttack][y][x].setBorderPainted(false);
+                return true;
             }
 
         }
@@ -295,15 +301,16 @@ class HumanVsComputer extends GameObject
     public boolean takeTurn(int x, int y, int team, int teamToAttack )
     {
         boolean userResult = super.takeTurn(x, y, team, teamToAttack);
-        
-        //If Game is not over, CPU takes a turn
-        if( checkGameOver() == -1 )
+        if( userResult ) //If the user made a valid move
         {
-           Random gen = new Random();
-           super.takeTurn(gen.nextInt(10), gen.nextInt(10), teamToAttack, team);
+            //If Game is not over, CPU takes a turn
+            if( checkGameOver() == -1 )
+            {
+               Random gen = new Random();
+               super.takeTurn(gen.nextInt(10), gen.nextInt(10), teamToAttack, team);
+            }
+            //CPU decision: basic mode will be just random choice
         }
-        //CPU decision: basic mode will be just random choice
-        
         return userResult;
     }
     
