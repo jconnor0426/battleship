@@ -29,6 +29,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.SwingUtilities; 
 import java.io.File;
 import java.util.ArrayList;
+import java.awt.TextField;
 
 public class homepage{
 	private JFrame frame = new JFrame("Home Screen");
@@ -148,7 +149,6 @@ public class homepage{
 	// --------------- Now in new frame ---------------------------------
 	public void boardFrame(){
 		board = new GameBoard();
-		legend = new Legend();
 		frame = new MainPage();
 		new_frame = (MainPage) frame;
 		shipsList = new_frame.getShipList();
@@ -167,7 +167,6 @@ public class homepage{
 		deploy.setEnabled(false);
 		deploy.addActionListener(new DeployListener());
 
-		new_frame.add(legend, BorderLayout.SOUTH);
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
 	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -188,12 +187,6 @@ public class homepage{
     		JOptionPane.showMessageDialog(null, message, "Rules of Battleship",
     		JOptionPane.INFORMATION_MESSAGE);
 		}
-	}
-
-	public void paintComponent(Graphics g){
-		frame.repaint();
-		new_frame.repaint();
-		legend.repaint();
 	}
 
 	public void addButtonListeners(GameBoard board){
@@ -304,6 +297,7 @@ public class homepage{
 
 				//Removing top labels of frame
 				new_frame.removeOptions();
+				new_frame.addStatistics();
 				new_frame.repaint();
 
 				//Set board to disabled

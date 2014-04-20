@@ -51,6 +51,7 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
+import java.awt.TextField;
 
 class MainPage extends JFrame{
 	private JMenuBar menuBar;
@@ -68,11 +69,18 @@ class MainPage extends JFrame{
 	private JComboBox<String> directionsList = new JComboBox<String>(directionNames);
 	private TitledBorder ships, directions;
 	JPanel shipOptions;
+	JPanel southPanel;
+	Legend legend;
+	JPanel statsPanel, statsTracker;
+	JLabel hits, misses, shipsSunk;
+	TextField numberHits, numberMisses, numberShipsSunk;
+
 
 
 	public MainPage(){
 		addMenu();
 		optionMenus();
+		addsouthPanel();
 	}
 
 	public void addMenu(){
@@ -139,6 +147,36 @@ class MainPage extends JFrame{
     		JOptionPane.showMessageDialog(null, message, "Rules of Battleship",
     		JOptionPane.INFORMATION_MESSAGE);
 		}
+	}
+
+	public void addStatistics(){
+		statsPanel = new JPanel(new GridLayout(3,2));
+		hits            = new JLabel("Hits");
+		misses          = new JLabel("Misses");
+		shipsSunk       = new JLabel("Ships Sunk   ");
+		numberHits      = new TextField("0", 2);
+		numberMisses    = new TextField("0", 2);
+		numberShipsSunk = new TextField("0", 2);
+		numberHits.setEditable(false);
+		numberMisses.setEditable(false);
+		numberShipsSunk.setEditable(false);
+		statsTracker = new JPanel(new GridLayout(3, 2));
+		statsTracker.add(hits);
+		statsTracker.add(numberHits);
+		statsTracker.add(misses);
+		statsTracker.add(numberMisses);
+		statsTracker.add(shipsSunk);
+		statsTracker.add(numberShipsSunk);
+		southPanel.add(statsTracker, BorderLayout.EAST);
+	}
+
+	public void addsouthPanel(){
+		legend = new Legend();
+		southPanel = new JPanel(new BorderLayout());
+		southPanel.setPreferredSize(new Dimension(100,100));
+		addStatistics();
+		southPanel.add(legend, BorderLayout.WEST);
+		add(southPanel, BorderLayout.SOUTH);
 	}
 
 	public JButton getDeploy(){
