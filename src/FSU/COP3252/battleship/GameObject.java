@@ -6,6 +6,7 @@
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -172,4 +173,18 @@ public class GameObject {
             } 
         } 
     }
+    
+//    public void cpuInitialize( int team )
+//    {
+//        Random generator = new Random();
+//        
+//        //Place a destroyer
+//        Destroyer cpuDestroyer = new Destroyer();
+//        while( !placeShip(generator.nextInt(10),
+//                          generator.nextInt(10),
+//                          generator.nextInt(2),
+//                          cpuDestroyer))
+//    }
+//    
+//    private boolean randomPlace
 }

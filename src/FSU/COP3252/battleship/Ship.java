@@ -1,5 +1,8 @@
+import java.awt.Color;
 
 class Ship {
+    
+    protected Color shipColor;
     
     public static int HORIZONTAL = 0;
     public static int VERTICAL = 1;
@@ -55,6 +58,11 @@ class Ship {
     {
         return name;
     }
+    
+    public Color getColor()
+    {
+        return shipColor;
+    }
 }
 
 class Destroyer extends Ship
@@ -65,6 +73,7 @@ class Destroyer extends Ship
         name = "Destroyer";
         size = 3;
         hits = new boolean[size];
+        shipColor = Color.BLACK;
     }
 }
 
@@ -75,6 +84,7 @@ class Carrier extends Ship
         name = "Carrier";
         size = 5;
         hits = new boolean[size];
+        shipColor = Color.BLUE;
     }
 }
 
@@ -85,6 +95,7 @@ class PatrolBoat extends Ship
         name = "PatrolBoat";
         size = 2;
         hits = new boolean[size];
+        shipColor = Color.GREEN;
     }
 
 }
@@ -97,6 +108,7 @@ class Submarine extends Ship
         name = "Submarine";
         size = 3;
         hits = new boolean[size];
+        shipColor = Color.MAGENTA;
     }
 }
 
@@ -107,5 +119,6 @@ class bs extends Ship
         name = "Battle Ship";
         size = 4;
         hits = new boolean[size];
+        shipColor = Color.PINK;
     }
 }
