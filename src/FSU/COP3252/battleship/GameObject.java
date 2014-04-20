@@ -90,6 +90,17 @@ public class GameObject {
         //If good placement add ship to team array
         playerShips.get(team).add(toPlace );
         
+        //Set all spots to become occupied:
+        if (toPlace.getOrientation() == Ship.HORIZONTAL){
+            for (int i = toPlace.getRow(); i < toPlace.getRow() + toPlace.getSize(); i++){
+                    game[team][toPlace.getColumn()][i].setOccupied(true);
+            }
+        } else if (toPlace.getOrientation() == Ship.VERTICAL){
+                for (int i = toPlace.getColumn(); i < toPlace.getColumn() + toPlace.getSize(); i++){
+                    game[team][i][toPlace.getRow()].setOccupied(true);
+                }
+        }
+        
         //return true
         
         return true;
@@ -174,17 +185,49 @@ public class GameObject {
         } 
     }
     
-//    public void cpuInitialize( int team )
-//    {
-//        Random generator = new Random();
-//        
-//        //Place a destroyer
-//        Destroyer cpuDestroyer = new Destroyer();
-//        while( !placeShip(generator.nextInt(10),
-//                          generator.nextInt(10),
-//                          generator.nextInt(2),
-//                          cpuDestroyer))
-//    }
-//    
-//    private boolean randomPlace
+    public void cpuInitialize( int team )
+    {
+        Random generator = new Random();
+        
+        //Place a Carrier
+        Carrier cpuCarrier = new Carrier();
+        while( ! randomPlace( generator, team, cpuCarrier) )
+        {
+            System.out.println("DEBUGGING CPU Carrier");
+        }
+        //Place a Battleship
+        bs cpuBattleship = new bs();
+        while( ! randomPlace( generator, team, cpuBattleship) )
+        {
+            System.out.println("DEBUGGING CPU bs");
+        }
+        //Place a destroyer
+        Destroyer cpuDestroyer = new Destroyer();
+        while( ! randomPlace( generator, team, cpuDestroyer) )
+        {
+            System.out.println("DEBUGGING CPU destr");
+        }
+        //Place a Submarine
+        Submarine cpuSubmarine = new Submarine();
+        while( ! randomPlace( generator, team, cpuSubmarine) )
+        {
+            System.out.println("DEBUGGING CPU sub");
+        }
+        //Place a PatrolBoat
+        PatrolBoat cpuPatrolBoat = new PatrolBoat();
+        while( ! randomPlace( generator, team, cpuPatrolBoat) )
+        {
+            System.out.println("DEBUGGING CPU Patrol Boat");
+        }
+    }
+    
+    //Used to place ships for the CPU player
+    private boolean randomPlace( Random generator, int team, Ship toPlace )
+    {
+        return placeShip(generator.nextInt(10),
+                          generator.nextInt(10),
+                          generator.nextInt(2),
+                          toPlace,
+                          team);
+    }
 }
