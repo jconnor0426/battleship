@@ -55,7 +55,7 @@ import javax.swing.border.TitledBorder;
 class MainPage extends JFrame{
 	private JMenuBar menuBar;
 	private JMenu gameMenu, helpMenu;
-	private JMenuItem pvp, pvc, cvc, red, blue, green, yellow;
+	private JMenuItem pvp, pvc, cvc;
 
 	private Ship[] shipNames = {new Carrier(),
                                     new bs(),
@@ -141,12 +141,8 @@ class MainPage extends JFrame{
 		}
 	}
 
-	public void setDeploy(){
-		deploy.setEnabled(true);
-	}
-
-	public boolean getDeploy(){
-		return deploy.isEnabled();
+	public JButton getDeploy(){
+		return deploy;
 	}
 
 	public JComboBox<Ship> getShipList(){
@@ -155,5 +151,9 @@ class MainPage extends JFrame{
 
 	public JComboBox<String> getDirectionList(){
 		return directionsList;
+	}
+
+	public void removeOptions(){
+		getContentPane().remove(shipOptions);
 	}
 }

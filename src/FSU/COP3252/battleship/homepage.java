@@ -69,7 +69,8 @@ public class homepage{
 	private MyButton[][] board1;
 	private MyButton[][] board2;
 
-
+	//Deployed button
+	private JButton deploy;
 
 	public static void main(String[] args){
 		homepage page = new homepage();
@@ -149,10 +150,15 @@ public class homepage{
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
 
-                board1 = board.getBoard2();
+        board1 = board.getBoard2();
 		board2 = board.getBoard1();
                 
 		gameObject = new GameObject(board1, board2);
+
+		//
+		deploy = new_frame.getDeploy();
+		deploy.setEnabled(false);
+		deploy.addActionListener(new DeployListener());
 
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
@@ -208,7 +214,6 @@ public class homepage{
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			int size = 0;
-			boolean enabled = new_frame.getDeploy();
 			direction = (String)directionsList.getSelectedItem();
 			ship = (Ship) shipsList.getSelectedItem();
 
@@ -221,24 +226,25 @@ public class homepage{
 
 			MyButton button = (MyButton) ev.getSource();
 
-			// If all ships aren't placed on board yet
-			if (!enabled){
-
-				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
-					
-					// Repainting the board to default before redrawing the ships
-					for (int i = 0; i < 10; i++){
-						for (int j = 0; j < 10; j++){
-							board1[i][j].setBackground(null);
-							board1[i][j].setOpaque(false);
-							board1[i][j].setBorderPainted(true);
-						}
+			if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
+				
+				// Repainting the board to default before redrawing the ships
+				for (int i = 0; i < 10; i++){
+					for (int j = 0; j < 10; j++){
+						board1[i][j].setBackground(null);
+						board1[i][j].setOpaque(false);
+						board1[i][j].setBorderPainted(true);
 					}
+				}
 
-					playersShips = gameObject.getShipsToDraw(0);
-					for (int i = 0; i < playersShips.size(); i++){
-						colorButtons(playersShips.get(i), 0);
-					}
+				playersShips = gameObject.getShipsToDraw(0);
+
+				if (playersShips.size() == 5){
+					deploy.setEnabled(true);
+				}
+
+				for (int i = 0; i < playersShips.size(); i++){
+					colorButtons(playersShips.get(i), 0);
 				}
 			}
 		}
@@ -267,6 +273,17 @@ public class homepage{
 			}
 		} else if (team == 1){
 
+		}
+	}
+
+	private class DeployListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			if (deploy.isEnabled()){
+
+				//Removing top labels of frame
+				new_frame.removeOptions();
+				new_frame.repaint();
+			}
 		}
 	}
 }
