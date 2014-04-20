@@ -13,7 +13,7 @@ class Ship {
     protected int orientation;
     protected int size;
     private MyButton[] buttonLocations;
-    private int x;
+    private int x; 
     private int y;
     
     public Ship()
