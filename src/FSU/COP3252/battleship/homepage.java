@@ -230,8 +230,8 @@ public class homepage{
 					for (int i = 0; i < 10; i++){
 						for (int j = 0; j < 10; j++){
 							board1[i][j].setBackground(null);
-							//board1[i][j].setOpaque(false);
-							//board1[i][j].setBorderPainted(true);
+							board1[i][j].setOpaque(false);
+							board1[i][j].setBorderPainted(true);
 						}
 					}
 
@@ -252,8 +252,8 @@ public class homepage{
 				for (int i = row; i < row + shipToDraw.getSize(); i++){
 					board1[column][i].setOccupied(true);
 					board1[column][i].setBackground(Color.BLACK);
-                    //board1[column][i].setOpaque(true);
-                    //board1[column][i].setBorderPainted(false);
+                                        board1[column][i].setOpaque(true);
+                                        board1[column][i].setBorderPainted(false);
 				}
 			} else if (orientation == Ship.VERTICAL){
 				int row = shipToDraw.getRow();
@@ -261,8 +261,8 @@ public class homepage{
 				for (int i = column; i < column + shipToDraw.getSize(); i++){
 					board1[i][row].setOccupied(true);
 					board1[i][row].setBackground(Color.BLACK);
-                    //board1[i][row].setOpaque(true);
-                    //board1[i][row].setBorderPainted(false);
+                                        board1[i][row].setOpaque(true);
+                                        board1[i][row].setBorderPainted(false);
 				}
 			}
 		} else if (team == 1){
