@@ -251,7 +251,7 @@ public class homepage{
 				int column = shipToDraw.getColumn();
 				for (int i = row; i < row + shipToDraw.getSize(); i++){
 					board1[column][i].setOccupied(true);
-					board1[column][i].setBackground(Color.BLACK);
+					board1[column][i].setBackground(shipToDraw.getColor());
                     board1[column][i].setOpaque(true);
                     board1[column][i].setBorderPainted(false);
 				}
@@ -260,7 +260,7 @@ public class homepage{
 				int column = shipToDraw.getColumn();
 				for (int i = column; i < column + shipToDraw.getSize(); i++){
 					board1[i][row].setOccupied(true);
-					board1[i][row].setBackground(Color.BLACK);
+					board1[i][row].setBackground(shipToDraw.getColor());
                     board1[i][row].setOpaque(true);
                     board1[i][row].setBorderPainted(false);
 				}
