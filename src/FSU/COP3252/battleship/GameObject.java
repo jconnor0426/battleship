@@ -59,7 +59,7 @@ public class GameObject {
             
             if( toPlace.getName().equals( playerShips.get(team).get(i).getName() ) )
             {
-                playerShips.get(team).remove(playerShips.get(team).get(i) );
+                removeShip(playerShips.get(team).get(i), team );
             }
         }
         
@@ -103,7 +103,6 @@ public class GameObject {
     {
         return y + size <= GAMESIZE;
     }
-    
     
     ArrayList< Ship > getShipsToDraw( int team )
     {
@@ -150,4 +149,25 @@ public class GameObject {
         return game[team];
     }
     
+    //Remove a ship from the game object 
+    private void removeShip( Ship toRemove, int team )
+    {
+        //Remove it from the list
+         playerShips.get(team).remove( toRemove );
+         
+        //Set all of its buttons to become not occupied
+        if( toRemove.getOrientation() == HORIZONTAL )
+        {
+            for( int i = 0; i < toRemove.getSize(); i++ )
+            {
+                game[team][ toRemove.getRow()+i][toRemove.getColumn()].setOccupied(false);
+            }
+        }else
+        {
+           for( int i = 0; i < toRemove.getSize(); i++ )
+            {
+                game[team][ toRemove.getRow()][toRemove.getColumn() + i].setOccupied(false);
+            } 
+        } 
+    }
 }
