@@ -158,6 +158,10 @@ public class homepage{
 		board2 = board.getBoard1();
                 
 		gameObject = new GameObject(board1, board2);
+                //Have the CPU player set their ships
+                //CPU player is always team 1
+                //Human Player is always team 0
+                gameObject.cpuInitialize(1);
 
 		deploy = new_frame.getDeploy();
 		deploy.setEnabled(false);
@@ -229,7 +233,16 @@ public class homepage{
 				}
 
 				playersShips = gameObject.getShipsToDraw(0);
+                                boolean DEBUG = false;
+                                if(DEBUG )
+                                {
+                                    ArrayList<Ship> cpuShips = gameObject.getShipsToDraw(1);
 
+                                    for (Ship cpuShip : cpuShips) {
+                                        colorButtons(cpuShip, 1);
+                                    }
+                                }
+                                
 				if (playersShips.size() == 5){
 					deploy.setEnabled(true);
 				}
@@ -263,8 +276,26 @@ public class homepage{
 				}
 			}
 		} else if (team == 1){
-
-		}
+                        if (shipToDraw.getOrientation() == Ship.HORIZONTAL){
+				int row = shipToDraw.getRow();
+				int column = shipToDraw.getColumn();
+				for (int i = row; i < row + shipToDraw.getSize(); i++){
+					board2[column][i].setOccupied(true);
+					board2[column][i].setBackground(shipToDraw.getColor());
+                                        board2[column][i].setOpaque(true);
+                                        board2[column][i].setBorderPainted(false);
+				}
+			} else if (shipToDraw.getOrientation() == Ship.VERTICAL){
+				int row = shipToDraw.getRow();
+				int column = shipToDraw.getColumn();
+				for (int i = column; i < column + shipToDraw.getSize(); i++){
+					board2[i][row].setOccupied(true);
+					board2[i][row].setBackground(shipToDraw.getColor());
+                                        board2[i][row].setOpaque(true);
+                                        board2[i][row].setBorderPainted(false);
+				}
+                        }
+                }
 	}
 
 	private class DeployListener implements ActionListener{
