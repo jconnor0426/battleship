@@ -32,42 +32,8 @@ class GameBoard extends JPanel{
 
 	public GameBoard()
 	{
-	    /*for( int i = 0; i < players; i++ ) {
-			playerShips1 = new ArrayList< Ship >(5);
-            hits1 = new ArrayList<Integer>(100);
-            misses1 = new ArrayList<Integer>(100);
-            playerShips2 = new ArrayList< Ship >(5);
-            hits2 = new ArrayList<Integer>(100);
-            misses2 = new ArrayList<Integer>(100);
-	    }*/
 	    createPanel();
 	}
-
-    /*public boolean placeShip( int team, Ship toPlace  )
-    {
-        if( validShipLocation( team, toPlace ) )
-                playerShips[team].add(toPlace);
-        
-        return true;
-    }
-
-	public boolean makeMove( int x, int y, char team)
-	{
-		if( x > boardSize || x < 0 )
-			return false;
-		if( y > boardSize || y < 0 )
-			return false;
-		if( board[x][y] != ' ') 
-			return false;
-			
-		board[x][y] = team;
-		return true;
-	}
-
-    private boolean validShipLocation(int team, Ship toPlace) {
-        
-        return true;
-    }*/
 
 	// Sets up frame and adds panels
 	public void createPanel(){

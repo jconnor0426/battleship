@@ -72,6 +72,9 @@ public class homepage{
 	//Deployed button
 	private JButton deploy;
 
+	//Table of contents for color of ships
+	Legend legend;
+
 	public static void main(String[] args){
 		homepage page = new homepage();
 		page.create();
@@ -145,6 +148,7 @@ public class homepage{
 	// --------------- Now in new frame ---------------------------------
 	public void boardFrame(){
 		board = new GameBoard();
+		legend = new Legend();
 		frame = new MainPage();
 		new_frame = (MainPage) frame;
 		shipsList = new_frame.getShipList();
@@ -155,11 +159,11 @@ public class homepage{
                 
 		gameObject = new GameObject(board1, board2);
 
-		//
 		deploy = new_frame.getDeploy();
 		deploy.setEnabled(false);
 		deploy.addActionListener(new DeployListener());
 
+		new_frame.add(legend, BorderLayout.SOUTH);
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
 	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -185,6 +189,7 @@ public class homepage{
 	public void paintComponent(Graphics g){
 		frame.repaint();
 		new_frame.repaint();
+		legend.repaint();
 	}
 
 	public void addButtonListeners(GameBoard board){
@@ -196,20 +201,6 @@ public class homepage{
 			}
 		}
 	}
-
-	/*public void checkBounds(int i, int j, String dir, int size){
-		if (dir.equals("Horizontal")){
-			if ((i + size) > 10){
-				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
-					JOptionPane.ERROR_MESSAGE);
-			}
-		} else if (dir.equals("Vertical")){
-			if ((j+ size) > 10){
-				JOptionPane.showMessageDialog(null, "Bad Placement", "Bad", 
-					JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}*/
 
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -283,6 +274,13 @@ public class homepage{
 				//Removing top labels of frame
 				new_frame.removeOptions();
 				new_frame.repaint();
+
+				//Set board to disabled
+				for (int i = 0; i < 10; i++){
+					for (int j = 0; j < 10; j++){
+						board1[i][j].setEnabled(false);
+					}
+				}
 			}
 		}
 	}
