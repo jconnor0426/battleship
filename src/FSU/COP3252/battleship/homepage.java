@@ -246,7 +246,7 @@ public class homepage{
 
 	public void colorButtons(Ship shipToDraw, int team){
 		if (team == 0){
-			if (orientation == Ship.HORIZONTAL){
+			if (shipToDraw.getOrientation() == Ship.HORIZONTAL){
 				int row = shipToDraw.getRow();
 				int column = shipToDraw.getColumn();
 				for (int i = row; i < row + shipToDraw.getSize(); i++){
@@ -255,7 +255,7 @@ public class homepage{
                     board1[column][i].setOpaque(true);
                     board1[column][i].setBorderPainted(false);
 				}
-			} else if (orientation == Ship.VERTICAL){
+			} else if (shipToDraw.getOrientation() == Ship.VERTICAL){
 				int row = shipToDraw.getRow();
 				int column = shipToDraw.getColumn();
 				for (int i = column; i < column + shipToDraw.getSize(); i++){
