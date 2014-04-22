@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 class Ship {
     
@@ -12,7 +13,8 @@ class Ship {
     protected boolean [] hits;
     protected int orientation;
     protected int size;
-    private MyButton[] buttonLocations;
+    protected ArrayList < MyButton > buttonLocations;
+    protected int numberOfHits;
     private int x; 
     private int y;
     
@@ -63,6 +65,30 @@ class Ship {
     {
         return shipColor;
     }
+
+    public void addButton(MyButton b){
+        buttonLocations.add(b);
+    }
+
+    public void clearButtonList(){
+        buttonLocations.clear();
+    }
+
+    public ArrayList < MyButton > getButtonLocations(){
+        return buttonLocations;
+    }
+
+    public void increaseHits(){
+        numberOfHits += 1;
+    }
+
+    public int getNumberOfHits(){
+        return numberOfHits;
+    }
+
+    public boolean getSunk(){
+        return (numberOfHits == size);
+    }
 }
 
 class Destroyer extends Ship
@@ -74,6 +100,8 @@ class Destroyer extends Ship
         size = 3;
         hits = new boolean[size];
         shipColor = Color.BLACK;
+        buttonLocations = new ArrayList < MyButton > (size);
+        numberOfHits = 0;
     }
 }
 
@@ -85,6 +113,8 @@ class Carrier extends Ship
         size = 5;
         hits = new boolean[size];
         shipColor = Color.BLUE;
+        buttonLocations = new ArrayList < MyButton > (size);
+        numberOfHits = 0;
     }
 }
 
@@ -96,6 +126,8 @@ class PatrolBoat extends Ship
         size = 2;
         hits = new boolean[size];
         shipColor = Color.GREEN;
+        buttonLocations = new ArrayList < MyButton > (size);
+        numberOfHits = 0;
     }
 
 }
@@ -109,6 +141,8 @@ class Submarine extends Ship
         size = 3;
         hits = new boolean[size];
         shipColor = Color.MAGENTA;
+        buttonLocations = new ArrayList < MyButton > (size);
+        numberOfHits = 0;
     }
 }
 
@@ -120,5 +154,7 @@ class bs extends Ship
         size = 4;
         hits = new boolean[size];
         shipColor = Color.PINK;
+        buttonLocations = new ArrayList < MyButton > (size);
+        numberOfHits = 0;
     }
 }

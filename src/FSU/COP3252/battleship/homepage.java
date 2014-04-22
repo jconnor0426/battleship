@@ -91,9 +91,9 @@ public class homepage{
 
 		frame.setLayout(new BorderLayout());
 
-	    b1 = new JButton("Player vs. Player");
-	    b2 = new JButton("Player vs. Computer");
-	    b3 = new JButton("Computer vs. Computer");
+	    b1 = new JButton("Computer vs. Computer");
+	    b2 = new JButton("Player vs. Easy Computer");
+	    b3 = new JButton("Player vs. Hard Computer");
 	    b4 = new JButton("Rules of Battleship");
 
 	    panel.setPreferredSize(new Dimension(20,75));
@@ -114,7 +114,7 @@ public class homepage{
 	    frame.setVisible(true);
 	    frame.setResizable(false);
 
-	    // Player vs. Player
+	    // Computer vs. Computer
 	    b1.addActionListener(new ActionListener(){
 	    	public void actionPerformed(ActionEvent e){
 				frame.remove(title);
@@ -122,22 +122,32 @@ public class homepage{
 				frame.setVisible(false);
 				frame.dispose();
 
-				boardFrame();
+				boardFrame(1);
 			}
 		});
 
 
-	    // Player vs. Computer
+	    // Player vs. Easy Computer
 	   	b2.addActionListener(new ActionListener(){
 	    	public void actionPerformed(ActionEvent e){
+				frame.remove(title);
+				frame.remove(panel);
+				frame.setVisible(false);
+				frame.dispose();
 
+				boardFrame(2);
 	    	}
 	    });
 
-	   	// Computer vs. Computer
+	   	// Player vs. Hard Computer
 	    b3.addActionListener(new ActionListener(){
 	    	public void actionPerformed(ActionEvent e){
+				frame.remove(title);
+				frame.remove(panel);
+				frame.setVisible(false);
+				frame.dispose();
 
+				boardFrame(3);
 	    	}
 	    });
 
@@ -146,8 +156,12 @@ public class homepage{
 	}
 
 
-	// --------------- Now in new frame ---------------------------------
-	public void boardFrame(){
+// ------------------------- Now in new frame ----------------------------------------
+	// 1 = comp vs. comp
+	// 2 = player vs. easy comp
+	// 3 = palyer vs. hard comp
+
+	public void boardFrame(int i){
 		board = new GameBoard();
 		frame = new MainPage();
 		new_frame = (MainPage) frame;
@@ -156,13 +170,21 @@ public class homepage{
 
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
-                
-		gameObject = new HumanVsComputerEasy(board1, board2);
+        
+        if (i == 1){
+        	gameObject = new GameObject(board1, board2);
+        } 
+        else if (i == 2){
+			gameObject = new HumanVsComputerEasy(board1, board2);
+        } 
+        else if (i == 3){
+        	gameObject = new HumanVsComputerHard(board1, board2);
+        }
 
-                //Have the CPU player set their ships
-                //CPU player is always team 1
-                //Human Player is always team 0
-                gameObject.cpuInitialize(1);
+        //Have the CPU player set their ships
+        //CPU player is always team 1
+        //Human Player is always team 0
+        gameObject.cpuInitialize(1);
 
 		deploy = new_frame.getDeploy();
 		deploy.setEnabled(false);
@@ -250,7 +272,7 @@ public class homepage{
 				System.out.println("true");
 				gameObject.takeTurn(button.getRow(), button.getColumn(), 0, 1);
 			}
-			if (gameObject.checkGameOver() == -1){
+			if (gameObject.checkGameOver() == 0){
 				JOptionPane.showMessageDialog(null, "Player " + "1 " +
 					"has won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 			}

@@ -56,7 +56,10 @@ import java.awt.TextField;
 class MainPage extends JFrame{
 	private JMenuBar menuBar;
 	private JMenu gameMenu, helpMenu;
-	private JMenuItem pvp, pvc, cvc;
+	// cvc = computer vs. computer
+	// pvce = player vs.  computer easy
+	// pvch = player vs.  computer hard
+	private JMenuItem cvc, pvce, pvch;
 
 	private Ship[] shipNames = {new Carrier(),
                                     new bs(),
@@ -87,9 +90,9 @@ class MainPage extends JFrame{
 		menuBar = new JMenuBar();
 		gameMenu = new JMenu("Game");
 		JMenu newGame = new JMenu("New Game");
-		pvp = new JMenuItem("Player vs. Player");
-		pvc = new JMenuItem("Player vs. Computer");
 		cvc = new JMenuItem("Computer vs. Computer");
+		pvce = new JMenuItem("Player vs. Easy Computer");
+		pvch = new JMenuItem("Player vs. Hard Computer");
 
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener(){
@@ -103,9 +106,9 @@ class MainPage extends JFrame{
 		JMenuItem help = new JMenuItem("View Help");
 		help.addActionListener(new HelpListener());
 
-		newGame.add(pvp);
-		newGame.add(pvc);
 		newGame.add(cvc);
+		newGame.add(pvce);
+		newGame.add(pvch);
 
 		gameMenu.add(newGame);
 		gameMenu.add(exit);

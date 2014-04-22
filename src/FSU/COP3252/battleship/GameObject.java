@@ -8,6 +8,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -69,7 +70,7 @@ public class GameObject {
         toPlace.setRow( x );
         toPlace.setColumn( y );
         toPlace.setOrientation( orientation );
-        System.out.println("BEFORE CHECKS: " + x + ":" + y);
+        //System.out.println("BEFORE CHECKS: " + x + ":" + y);
         
         //Try to create ship 
         if( orientation == HORIZONTAL )
@@ -82,7 +83,7 @@ public class GameObject {
                 return false;
         }
 
-        System.out.println("x: " + x + "\ty:" + y);
+        //System.out.println("x: " + x + "\ty:" + y);
         
         
         //Try to place 
@@ -94,15 +95,19 @@ public class GameObject {
         
         //Set all spots to become occupied:
         if (toPlace.getOrientation() == Ship.HORIZONTAL){
+            toPlace.clearButtonList();
             for (int i = toPlace.getRow(); i < toPlace.getRow() + toPlace.getSize(); i++){
                     game[team][toPlace.getColumn()][i].setOccupied(true);
+                    toPlace.addButton(game[team][toPlace.getColumn()][i]);
             }
         } else if (toPlace.getOrientation() == Ship.VERTICAL){
+            toPlace.clearButtonList();
                 for (int i = toPlace.getColumn(); i < toPlace.getColumn() + toPlace.getSize(); i++){
                     game[team][i][toPlace.getRow()].setOccupied(true);
+                    toPlace.addButton(game[team][i][toPlace.getRow()]);
                 }
         }
-        
+
         //return true
         
         return true;
@@ -125,7 +130,7 @@ public class GameObject {
     
     boolean spotOccupied( int x, int y, int team )
     {
-        System.out.println(x + ":" + y);
+        //System.out.println(x + ":" + y);
         //Return whether or not a ship occupies that location
         return game[ team ][y][x].getOccupied();        
     }
@@ -133,7 +138,7 @@ public class GameObject {
     boolean spotHit( int x, int y, int team )
     {
         //Return whether or not a ship occupies that location
-        System.out.println("SPOT HIT? "+x + ":" + y + game[ team ][y][x].getHit());
+        //System.out.println("SPOT HIT? "+x + ":" + y + game[ team ][y][x].getHit());
         return game[ team ][y][x].getHit();
     }
     
@@ -174,14 +179,14 @@ public class GameObject {
         {
             for( int i = 0; i < toRemove.getSize(); i++ )
             {
-                System.out.println( "DEBUGGING REMOVE: " +toRemove.getRow()+i +":"+toRemove.getColumn());
+                //System.out.println( "DEBUGGING REMOVE: " +toRemove.getRow()+i +":"+toRemove.getColumn());
                 game[team][ toRemove.getColumn()][toRemove.getRow()+i].setOccupied(false);
             }
         }else
         {
            for( int i = 0; i < toRemove.getSize(); i++ )
             {
-                System.out.println( "DEBUGGING REMOVE: " +toRemove.getRow() +":"+toRemove.getColumn()+i);
+                //System.out.println( "DEBUGGING REMOVE: " +toRemove.getRow() +":"+toRemove.getColumn()+i);
                 game[team][ toRemove.getColumn()+i][toRemove.getRow()].setOccupied(false);
             } 
         } 
@@ -237,7 +242,12 @@ public class GameObject {
     //Returns false if it was a duplicate value
     public boolean takeTurn(int x, int y, int team, int teamToAttack )
     {
-
+        ArrayList < Ship > tempShipsList;
+        if (teamToAttack == 1){
+            tempShipsList = getShipsToDraw(1);
+        } else{
+            tempShipsList = getShipsToDraw(0);
+        }
         //!Occupided + !Hit = noColor
         //!Occupied + Hit = Miss Color
         //Occupied + Hit = Red  
@@ -248,7 +258,7 @@ public class GameObject {
             return false;
         }else
         {
-            System.out.println("DEBUG AM I ON?");
+            //System.out.println("DEBUG AM I ON?");
             //If occupied 
             if( spotOccupied(x,y, teamToAttack) )
             {
@@ -257,6 +267,27 @@ public class GameObject {
                 game[teamToAttack][y][x].setOpaque(true);
                 game[teamToAttack][y][x].setBorderPainted(false);
                 hits[team]++;
+
+                // Checking if ship is sunk
+
+                for (int i = 0; i < tempShipsList.size(); i++){
+                    ArrayList < MyButton > tempButtons = tempShipsList.get(i).getButtonLocations();
+                    //System.out.println(tempShipsList.get(i).getNumberOfHits());
+                    for (int j = 0; j < tempButtons.size(); j++){
+                        //System.out.print(tempButtons.get(j).getColumn() + ":" + tempButtons.get(j).getRow() + "\t");
+                        if (tempButtons.get(j).getRow() == x && tempButtons.get(j).getColumn() == y){
+                            tempShipsList.get(i).increaseHits();
+                            if (tempShipsList.get(i).getSunk()){
+                                int temp = teamToAttack;
+                                // Increment player count so player1 = left board and player2 = right board
+                                temp += 1;
+                                JOptionPane.showMessageDialog(null,
+                                   "Ship sunk", "Player " + temp + "'s ship has been sunk!",
+                                   JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        }
+                    }
+                }
                 return true;
             }
             //else it was a miss
