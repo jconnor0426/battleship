@@ -287,10 +287,10 @@ public class GameObject {
     }
 }
 
-class HumanVsComputer extends GameObject
+class HumanVsComputerEasy extends GameObject
 {
 
-    public HumanVsComputer(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
+    public HumanVsComputerEasy(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
         super(team0Buttons, team1Buttons);
         //Human is always team 0 
         //CPU is always team 1
@@ -312,6 +312,41 @@ class HumanVsComputer extends GameObject
             //CPU decision: basic mode will be just random choice
         }
         return userResult;
+    }
+    
+}
+
+class HumanVsComputerHard extends GameObject
+{
+
+    public HumanVsComputerHard(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
+        super(team0Buttons, team1Buttons);
+        //Human is always team 0 
+        //CPU is always team 1
+        
+        cpuInitialize(1);
+    }
+    
+    public boolean takeTurn(int x, int y, int team, int teamToAttack )
+    {
+        boolean userResult = super.takeTurn(x, y, team, teamToAttack);
+        if( userResult ) //If the user made a valid move
+        {
+            //If Game is not over, CPU takes a turn
+            if( checkGameOver() == -1 )
+            {
+               Random gen = new Random();
+               super.takeTurn(gen.nextInt(10), gen.nextInt(10), teamToAttack, team);
+            }
+            //CPU decision: basic mode will be just random choice
+        }
+        return userResult;
+    }
+    
+    private boolean cpuTurn()
+    {
+     
+        return true;
     }
     
 }

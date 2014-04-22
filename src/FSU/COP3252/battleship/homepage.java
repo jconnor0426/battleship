@@ -157,7 +157,7 @@ public class homepage{
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
                 
-		gameObject = new HumanVsComputer(board1, board2);
+		gameObject = new HumanVsComputerEasy(board1, board2);
 
                 //Have the CPU player set their ships
                 //CPU player is always team 1
