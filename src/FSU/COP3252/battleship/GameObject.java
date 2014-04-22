@@ -55,6 +55,11 @@ public class GameObject {
         misses[1] =0;
     }
     
+    //ONLY USE IN COMPUTER VS COMPUTER!
+    public void start()
+    {
+        
+    }
     
     boolean placeShip( int x, int y, int orientation, Ship toPlace, int team )
     {
@@ -193,7 +198,7 @@ public class GameObject {
         } 
     }
     
-    public void cpuInitialize( int team )
+    public void cpuPlaceShips( int team)
     {
         Random generator = new Random();
         
@@ -227,6 +232,11 @@ public class GameObject {
         {
             System.out.println("DEBUGGING CPU Patrol Boat");
         }
+    }
+    
+    public void cpuInitialize( int team )
+    {
+        cpuPlaceShips(team);
     }
     
     //Used to place ships for the CPU player
@@ -517,6 +527,7 @@ class HumanVsComputerHard extends GameObject
         computerTarget = new Stack< Couple >();
     }
     
+    
 }
 
 class Couple{
@@ -529,3 +540,85 @@ class Couple{
         }
         
     }
+
+
+class ComputerVsComputer extends GameObject
+{
+    private ArrayList< Stack< Couple > > cpuTargets;
+
+    public ComputerVsComputer(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
+        super(team0Buttons, team1Buttons);
+        cpuTargets = new ArrayList<Stack<Couple>>();
+        cpuTargets.add(new Stack<Couple>() );
+        cpuTargets.add(new Stack<Couple>() );
+        
+        //Set the both to be a computer
+        cpuInitialize(0);
+        cpuInitialize(1);
+    }
+    
+    
+    public void start() //throws InterruptedException
+    {
+        int turn = 0;
+        while( checkGameOver() == -1 ) //Game not over
+        {
+            cpuTurn( cpuGetTarget(turn%2), turn%2, (turn+1)%2 );
+            turn++;
+            //wait(10);
+        }
+    }
+    
+    private Couple cpuGetTarget(int team)
+    {
+        
+        Couple target;
+        Random gen = new Random();
+        //If stack is empty
+        if( cpuTargets.get(team).empty())
+        {
+            //Select from only half the board
+            int x = gen.nextInt(10);
+            int y = (x%2==0)?   gen.nextInt(5)*2+1 //if even, select odd
+                            :   gen.nextInt(5)*2;  //else odd, select even
+            target = new Couple( x, y );
+        }else
+        {
+            target = cpuTargets.get(team).pop();
+        }
+        
+        return target;
+    }
+    
+    private boolean cpuTurn(Couple target, int team, int teamToAttack)
+    {
+        
+        while( ! super.takeTurn(target.x, target.y, team, teamToAttack ) )
+        {
+            target = cpuGetTarget(team);
+        };
+        
+        //If shot hit, add  N, S, E, W, to stack
+        if( spotHit( target.x, target.y, teamToAttack) && spotOccupied(target.x, target.y, teamToAttack) )
+        {
+            //Add x+1, y
+            if( target.x +1 < 10 )
+                cpuTargets.get(team).push( new Couple( target.x +1 , target.y ) );
+            //Add x-1, y
+            if( target.x -1 >= 0 )
+                cpuTargets.get(team).push( new Couple( target.x -1 , target.y ) );
+            //Add x, y+1
+            if( target.y +1 < 10 )
+                cpuTargets.get(team).push( new Couple( target.x  , target.y+1 ) );
+            //Add x, y-1
+            if( target.y - 1 >= 0 )
+                cpuTargets.get(team).push( new Couple( target.x , target.y -1 ) );
+        }
+        
+        
+        
+        return true;
+    }
+    
+   
+}

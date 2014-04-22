@@ -70,6 +70,7 @@ public class homepage{
 	private MyButton[][] board1;
 	private MyButton[][] board2;
 
+        private int gameType;
 	//Deployed button
 	private JButton deploy;
 
@@ -159,7 +160,8 @@ public class homepage{
 // ------------------------- Now in new frame ----------------------------------------
 	// 1 = comp vs. comp
 	// 2 = player vs. easy comp
-	// 3 = palyer vs. hard comp
+        // 3 = player vs. medium comp
+	// 4 = player vs. hard comp
 
 	public void boardFrame(int i){
 		board = new GameBoard();
@@ -170,15 +172,19 @@ public class homepage{
 
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
-        
-        if (i == 1){
-        	gameObject = new GameObject(board1, board2);
+                gameType = i;
+        if (gameType == 1){
+        	gameObject = new ComputerVsComputer(board1, board2);
         } 
-        else if (i == 2){
+        else if (gameType == 2){
 			gameObject = new HumanVsComputerEasy(board1, board2);
         } 
-        else if (i == 3){
-        	gameObject = new HumanVsComputerHard(board1, board2);
+        else if (gameType == 3){
+        	gameObject = new HumanVsComputerMedium(board1, board2);
+        }
+        else
+        {
+            gameObject = new HumanVsComputerHard(board1, board2);
         }
 
         //Have the CPU player set their ships
@@ -189,6 +195,13 @@ public class homepage{
 		deploy = new_frame.getDeploy();
 		deploy.setEnabled(false);
 		deploy.addActionListener(new DeployListener());
+                
+                //Check to see if gametype is a computer vs computer
+                if( gameType == 1 )
+                {
+                    //if it is enable the deploy button as that will start the game
+                    deploy.setEnabled(true );
+                }
 
 		new_frame.add(board, BorderLayout.CENTER);
 	   	new_frame.setSize(500,500);
@@ -336,8 +349,13 @@ public class homepage{
 				for (int i = 0; i < 10; i++){
 					for (int j = 0; j < 10; j++){
 						board1[i][j].setEnabled(false);
+                                                board2[i][j].setEnabled(false);
 					}
 				}
+                                if( gameType == 1 )
+                                {
+                                    gameObject.start();
+                                }
 			}
 		}
 	}
