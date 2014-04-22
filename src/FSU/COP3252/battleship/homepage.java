@@ -250,7 +250,7 @@ public class homepage{
 				System.out.println("true");
 				gameObject.takeTurn(button.getRow(), button.getColumn(), 0, 1);
 			}
-			if (gameObject.checkGameOver()){
+			if (gameObject.checkGameOver() == -1){
 				JOptionPane.showMessageDialog(null, "Player " + "1 " +
 					"has won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 			}
