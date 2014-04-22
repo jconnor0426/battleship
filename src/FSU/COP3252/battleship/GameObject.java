@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import java.util.Stack;
 
 /**
  *
@@ -288,6 +289,8 @@ public class GameObject {
                         }
                     }
                 }
+                
+                //Check to see if the ship at that location is sunk
                 return true;
             }
             //else it was a miss
@@ -347,10 +350,13 @@ class HumanVsComputerEasy extends GameObject
     
 }
 
-class HumanVsComputerHard extends GameObject
+class HumanVsComputerMedium extends GameObject
 {
+    
+    
+    protected Stack< Couple > computerTarget;
 
-    public HumanVsComputerHard(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
+    public HumanVsComputerMedium(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
         super(team0Buttons, team1Buttons);
         //Human is always team 0 
         //CPU is always team 1
@@ -366,18 +372,160 @@ class HumanVsComputerHard extends GameObject
             //If Game is not over, CPU takes a turn
             if( checkGameOver() == -1 )
             {
-               Random gen = new Random();
-               super.takeTurn(gen.nextInt(10), gen.nextInt(10), teamToAttack, team);
+               cpuTurn( cpuGetTarget(), teamToAttack, team );
             }
             //CPU decision: basic mode will be just random choice
         }
         return userResult;
     }
     
-    private boolean cpuTurn()
+    public void cpuInitialize( int team )
     {
-     
+        super.cpuInitialize(team);
+        
+        computerTarget = new Stack< Couple >();
+    }
+    
+    private Couple cpuGetTarget()
+    {
+        Couple target;
+        Random gen = new Random();
+        //If stack is empty
+        if( computerTarget.empty())
+        {
+            target = new Couple( gen.nextInt(10), gen.nextInt(10) );
+        }else
+        {
+            target = computerTarget.pop();
+        }
+        
+        return target;
+    }
+    
+    private boolean cpuTurn(Couple target, int team, int teamToAttack)
+    {
+        
+        while( ! super.takeTurn(target.x, target.y, team, teamToAttack ) )
+        {
+            target = cpuGetTarget();
+        };
+        
+        //If shot hit, add  N, S, E, W, to stack
+        if( spotHit( target.x, target.y, teamToAttack) && spotOccupied(target.x, target.y, teamToAttack) )
+        {
+            //Add x+1, y
+            if( target.x +1 < 10 )
+                computerTarget.push( new Couple( target.x +1 , target.y ) );
+            //Add x-1, y
+            if( target.x -1 >= 0 )
+                computerTarget.push( new Couple( target.x -1 , target.y ) );
+            //Add x, y+1
+            if( target.y +1 < 10 )
+                computerTarget.push( new Couple( target.x  , target.y+1 ) );
+            //Add x, y-1
+            if( target.y - 1 >= 0 )
+                computerTarget.push( new Couple( target.x , target.y -1 ) );
+        }
+        
+        
+        
         return true;
     }
     
 }
+
+class HumanVsComputerHard extends GameObject
+{
+
+    protected Stack< Couple > computerTarget;
+    
+    public HumanVsComputerHard(MyButton[][] team0Buttons, MyButton[][] team1Buttons) {
+        super(team0Buttons, team1Buttons);
+        cpuInitialize(1);
+    }
+
+    private Couple cpuGetTarget()
+    {
+        
+        Couple target;
+        Random gen = new Random();
+        //If stack is empty
+        if( computerTarget.empty())
+        {
+            //Select from only half the board
+            int x = gen.nextInt(10);
+            int y = (x%2==0)?   gen.nextInt(5)*2+1 //if even, select odd
+                            :   gen.nextInt(5)*2;  //else odd, select even
+            target = new Couple( x, y );
+        }else
+        {
+            target = computerTarget.pop();
+        }
+        
+        return target;
+    }
+    
+    public boolean takeTurn(int x, int y, int team, int teamToAttack )
+    {
+        boolean userResult = super.takeTurn(x, y, team, teamToAttack);
+        if( userResult ) //If the user made a valid move
+        {
+            //If Game is not over, CPU takes a turn
+            if( checkGameOver() == -1 )
+            {
+               cpuTurn( cpuGetTarget(), teamToAttack, team );
+            }
+            //CPU decision: basic mode will be just random choice
+        }
+        return userResult;
+    }
+    
+    private boolean cpuTurn(Couple target, int team, int teamToAttack)
+    {
+        
+        while( ! super.takeTurn(target.x, target.y, team, teamToAttack ) )
+        {
+            target = cpuGetTarget();
+        };
+        
+        //If shot hit, add  N, S, E, W, to stack
+        if( spotHit( target.x, target.y, teamToAttack) && spotOccupied(target.x, target.y, teamToAttack) )
+        {
+            //Add x+1, y
+            if( target.x +1 < 10 )
+                computerTarget.push( new Couple( target.x +1 , target.y ) );
+            //Add x-1, y
+            if( target.x -1 >= 0 )
+                computerTarget.push( new Couple( target.x -1 , target.y ) );
+            //Add x, y+1
+            if( target.y +1 < 10 )
+                computerTarget.push( new Couple( target.x  , target.y+1 ) );
+            //Add x, y-1
+            if( target.y - 1 >= 0 )
+                computerTarget.push( new Couple( target.x , target.y -1 ) );
+        }
+        
+        
+        
+        return true;
+    }
+    
+    public void cpuInitialize( int team )
+    {
+        super.cpuInitialize(team);
+        
+        computerTarget = new Stack< Couple >();
+    }
+    
+}
+
+class Couple{
+        public int x;
+        public int y;
+        public Couple( int x, int y )
+        {
+            this.x = x;
+            this.y = y;
+        }
+        
+    }
