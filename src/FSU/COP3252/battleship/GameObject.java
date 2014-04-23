@@ -28,6 +28,7 @@ public class GameObject {
     ArrayList< ArrayList < Ship > > playerShips;
     private int [] hits;
     private int [] misses;
+    private int [] shipsSunk;
     
     public GameObject( MyButton[][] team0Buttons, MyButton[][] team1Buttons )
     {
@@ -53,6 +54,10 @@ public class GameObject {
         misses = new int[2];
         misses[0] =0;
         misses[1] =0;
+
+        shipsSunk = new int[2];
+        shipsSunk[0] = 0;
+        shipsSunk[1] = 0;
     }
     
     
@@ -243,12 +248,6 @@ public class GameObject {
     //Returns false if it was a duplicate value
     public boolean takeTurn(int x, int y, int team, int teamToAttack )
     {
-        ArrayList < Ship > tempShipsList;
-        if (teamToAttack == 1){
-            tempShipsList = getShipsToDraw(1);
-        } else{
-            tempShipsList = getShipsToDraw(0);
-        }
         //!Occupided + !Hit = noColor
         //!Occupied + Hit = Miss Color
         //Occupied + Hit = Red  
@@ -270,25 +269,7 @@ public class GameObject {
                 hits[team]++;
 
                 // Checking if ship is sunk
-
-                for (int i = 0; i < tempShipsList.size(); i++){
-                    ArrayList < MyButton > tempButtons = tempShipsList.get(i).getButtonLocations();
-                    //System.out.println(tempShipsList.get(i).getNumberOfHits());
-                    for (int j = 0; j < tempButtons.size(); j++){
-                        //System.out.print(tempButtons.get(j).getColumn() + ":" + tempButtons.get(j).getRow() + "\t");
-                        if (tempButtons.get(j).getRow() == x && tempButtons.get(j).getColumn() == y){
-                            tempShipsList.get(i).increaseHits();
-                            if (tempShipsList.get(i).getSunk()){
-                                int temp = teamToAttack;
-                                // Increment player count so player1 = left board and player2 = right board
-                                temp += 1;
-                                JOptionPane.showMessageDialog(null,
-                                   "Ship sunk", "Player " + temp + "'s ship has been sunk!",
-                                   JOptionPane.INFORMATION_MESSAGE);
-                            }
-                        }
-                    }
-                }
+                checkShipSunk(x, y, teamToAttack);
                 
                 //Check to see if the ship at that location is sunk
                 return true;
@@ -318,6 +299,34 @@ public class GameObject {
         }
         
         return -1;
+    }
+
+    public void checkShipSunk(int x, int y, int team){
+        ArrayList < Ship > tempShipsList;
+        if (team == 1){
+            tempShipsList = getShipsToDraw(1);
+        } else{
+            tempShipsList = getShipsToDraw(0);
+        }
+
+        for (int i = 0; i < tempShipsList.size(); i++){
+            ArrayList < MyButton > tempButtons = tempShipsList.get(i).getButtonLocations();
+
+            for (int j = 0; j < tempButtons.size(); j++){
+
+                if (tempButtons.get(j).getRow() == x && tempButtons.get(j).getColumn() == y){
+                    tempShipsList.get(i).increaseHits();
+                    if (tempShipsList.get(i).getSunk()){
+                        // Increment player count so player1 = left board and player2 = right board
+                        shipsSunk[team] += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    public int getNumberOfShipsSunk(int team){
+        return shipsSunk[team];
     }
 }
 
