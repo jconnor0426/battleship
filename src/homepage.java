@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.awt.TextField;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.*;
 
 public class homepage{
@@ -108,7 +111,7 @@ public class homepage{
 	public void create(){
 		try{
 	    	frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read
-	    		(new File("battleship.jpg")))));
+	    		( ( this.getClass().getResource( "battleship.jpg") ) ) )) );
 	   	} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -191,7 +194,8 @@ public class homepage{
 
 	    // Rules
 	    b5.addActionListener(new HelpListener());
-	}
+	}   
+
 
 
 // ------------------------- Now in new frame ----------------------------------------
@@ -537,7 +541,7 @@ public class homepage{
 	public void playExplosion(){
 		AudioInputStream audioInputStream;
 		try{
-			File soundFile = new File( "Arcade Explo A.wav" );
+			URL soundFile = this.getClass().getResource("Arcade Explo A.wav" );
 			audioInputStream = AudioSystem.getAudioInputStream( soundFile );
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
@@ -548,7 +552,7 @@ public class homepage{
 	public void playMiss(){
 		AudioInputStream audioInputStream;
 		try{
-			File soundFile = new File( "water-splash-3.wav" );
+			URL soundFile = this.getClass().getResource( "water-splash-3.wav" );
 			audioInputStream = AudioSystem.getAudioInputStream( soundFile );
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
@@ -559,7 +563,7 @@ public class homepage{
 	public void playHit(){
 		AudioInputStream audioInputStream;
 		try{
-			File soundFile = new File( "battle explosion.wav" );
+			URL soundFile = this.getClass().getResource( "battle explosion.wav" );
 			audioInputStream = AudioSystem.getAudioInputStream( soundFile );
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
