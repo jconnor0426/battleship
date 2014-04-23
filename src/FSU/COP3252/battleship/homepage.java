@@ -77,6 +77,10 @@ public class homepage{
 	//Table of contents for color of ships
 	Legend legend;
 
+	JPanel statsPanel, statsTracker;
+	JLabel hits, misses, shipsSunk;
+	TextField numberHits, numberMisses, numberShipsSunk;
+
 	public static void main(String[] args){
 		homepage page = new homepage();
 		page.create();
@@ -169,6 +173,7 @@ public class homepage{
 		new_frame = (MainPage) frame;
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
+		addStatistics();
 
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
@@ -204,12 +209,61 @@ public class homepage{
                 }
 
 		new_frame.add(board, BorderLayout.CENTER);
+		new_frame.addToSouthPanel(statsTracker);
+		new_frame.addSouthPanel();
 	   	new_frame.setSize(500,500);
 	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    new_frame.setVisible(true);
 	    new_frame.setResizable(false);
 		new_frame.repaint();
 		addButtonListeners(board);
+	}
+
+	public void addStatistics(){
+		statsPanel = new JPanel(new GridLayout(3,2));
+		hits            = new JLabel("Hits");
+		misses          = new JLabel("Misses");
+		shipsSunk       = new JLabel("Ships Sunk   ");
+		numberHits      = new TextField("0", 2);
+		numberMisses    = new TextField("0", 2);
+		numberShipsSunk = new TextField("0", 2);
+		numberHits.setEditable(false);
+		numberMisses.setEditable(false);
+		numberShipsSunk.setEditable(false);
+		statsTracker = new JPanel(new GridLayout(3, 2));
+		statsTracker.add(hits);
+		statsTracker.add(numberHits);
+		statsTracker.add(misses);
+		statsTracker.add(numberMisses);
+		statsTracker.add(shipsSunk);
+		statsTracker.add(numberShipsSunk);
+	}
+
+	public void incrementHits(){
+		String text = numberHits.getText();
+		int number = Integer.parseInt(text);
+		number += 1;
+		String num = String.valueOf(number);
+		numberHits.setText(num);
+		new_frame.repaint();
+	}
+
+	public void incrementMisses(){
+		String text = numberMisses.getText();
+		int number = Integer.parseInt(text);
+		number += 1;
+		String num = String.valueOf(number);
+		numberMisses.setText(num);
+		new_frame.repaint();
+	}
+
+	public void incrementShipsSunk(){
+		String text = numberShipsSunk.getText();
+		int number = Integer.parseInt(text);
+		number += 1;
+		String num = String.valueOf(number);
+		numberShipsSunk.setText(num);
+		new_frame.repaint();
 	}
 
 	private class HelpListener implements ActionListener{
@@ -283,7 +337,21 @@ public class homepage{
 				}
 			} else{
 				System.out.println("true");
+				// Checking to see if the number of ships sunk before and after take turn
+				// is different
+				int begin = gameObject.getNumberOfShipsSunk(1);
 				gameObject.takeTurn(button.getRow(), button.getColumn(), 0, 1);
+				int end = gameObject.getNumberOfShipsSunk(1);
+				if (begin != end){
+					// Set temp to player 2, meaning player 1 in our programming logic
+					int temp = 2;
+                    JOptionPane.showMessageDialog(null,
+                       "Ship sunk", "Player " + temp + "'s ship has been sunk!",
+                       JOptionPane.INFORMATION_MESSAGE);
+                    new_frame.incrementShipsSunk();
+                    new_frame.repaint();
+				}
+
 			}
 			if (gameObject.checkGameOver() == 0){
 				JOptionPane.showMessageDialog(null, "Player " + "1 " +
@@ -342,7 +410,7 @@ public class homepage{
 
 				//Removing top labels of frame
 				new_frame.removeOptions();
-				new_frame.addStatistics();
+				//new_frame.addStatistics();
 				new_frame.repaint();
 
 				//Set board to disabled
