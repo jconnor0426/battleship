@@ -112,7 +112,7 @@ class Carrier extends Ship
         name = "Carrier";
         size = 5;
         hits = new boolean[size];
-        shipColor = Color.BLUE;
+        shipColor = Color.YELLOW;
         buttonLocations = new ArrayList < MyButton > (size);
         numberOfHits = 0;
     }

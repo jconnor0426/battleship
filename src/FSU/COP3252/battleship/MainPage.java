@@ -58,8 +58,9 @@ class MainPage extends JFrame{
 	private JMenu gameMenu, helpMenu;
 	// cvc = computer vs. computer
 	// pvce = player vs.  computer easy
+	// pvcm = player vs. computer medium
 	// pvch = player vs.  computer hard
-	private JMenuItem cvc, pvce, pvch;
+	private JMenuItem cvc, pvce, pvcm, pvch;
 
 	private Ship[] shipNames = {new Carrier(),
                                     new bs(),
@@ -81,17 +82,18 @@ class MainPage extends JFrame{
 
 
 	public MainPage(){
-		addMenu();
+		//addMenu();
 		optionMenus();
 		addsouthPanel();
 	}
 
-	public void addMenu(){
+	/*public void addMenu(){
 		menuBar = new JMenuBar();
 		gameMenu = new JMenu("Game");
 		JMenu newGame = new JMenu("New Game");
 		cvc = new JMenuItem("Computer vs. Computer");
 		pvce = new JMenuItem("Player vs. Easy Computer");
+		pvch = new JMenuItem("Player vs. Computer Hard");
 		pvch = new JMenuItem("Player vs. Hard Computer");
 
 		JMenuItem exit = new JMenuItem("Exit");
@@ -119,7 +121,7 @@ class MainPage extends JFrame{
 		menuBar.add(helpMenu);
 
 		setJMenuBar(menuBar);
-	}
+	}*/
 
 	public void optionMenus(){
 		deploy = new JButton("Place Ships!");
@@ -152,34 +154,16 @@ class MainPage extends JFrame{
 		}
 	}
 
-	public void addStatistics(){
-		statsPanel = new JPanel(new GridLayout(3,2));
-		hits            = new JLabel("Hits");
-		misses          = new JLabel("Misses");
-		shipsSunk       = new JLabel("Ships Sunk   ");
-		numberHits      = new TextField("0", 2);
-		numberMisses    = new TextField("0", 2);
-		numberShipsSunk = new TextField("0", 2);
-		numberHits.setEditable(false);
-		numberMisses.setEditable(false);
-		numberShipsSunk.setEditable(false);
-		statsTracker = new JPanel(new GridLayout(3, 2));
-		statsTracker.add(hits);
-		statsTracker.add(numberHits);
-		statsTracker.add(misses);
-		statsTracker.add(numberMisses);
-		statsTracker.add(shipsSunk);
-		statsTracker.add(numberShipsSunk);
-		southPanel.add(statsTracker, BorderLayout.EAST);
-	}
-
 	public void addsouthPanel(){
 		legend = new Legend();
 		southPanel = new JPanel(new BorderLayout());
 		southPanel.setPreferredSize(new Dimension(100,100));
-		addStatistics();
 		southPanel.add(legend, BorderLayout.WEST);
 		add(southPanel, BorderLayout.SOUTH);
+	}
+
+	public void addSouthPanelEast(JPanel panel){
+		southPanel.add(panel, BorderLayout.EAST);
 	}
 
 	public JButton getDeploy(){

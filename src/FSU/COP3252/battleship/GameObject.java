@@ -291,6 +291,7 @@ public class GameObject {
                 game[teamToAttack][y][x].setBackground(Color.BLUE);
                 game[teamToAttack][y][x].setOpaque(true);
                 game[teamToAttack][y][x].setBorderPainted(false);
+                misses[team]++;
                 return true;
             }
 
@@ -337,6 +338,14 @@ public class GameObject {
 
     public int getNumberOfShipsSunk(int team){
         return shipsSunk[team];
+    }
+
+    public int getNumberOfMisses(int team){
+        return misses[team];
+    }
+
+    public int getNumberOfHits(int team){
+        return hits[team];
     }
 }
 

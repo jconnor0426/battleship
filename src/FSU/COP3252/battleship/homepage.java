@@ -30,10 +30,12 @@ import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.ArrayList;
 import java.awt.TextField;
+import javax.swing.border.TitledBorder;
+import java.awt.Font;
 
 public class homepage{
 	private JFrame frame = new JFrame("Home Screen");
-	private JButton b1, b2, b3, b4;
+	private JButton b1, b2, b3, b4, b5;
 	private URL url;
 	private JPanel panel = new JPanel();
 	private JLabel title = new JLabel("BattleShip", JLabel.CENTER);
@@ -42,7 +44,11 @@ public class homepage{
 
 	private JMenuBar menuBar;
 	private JMenu gameMenu, helpMenu;
-	private JMenuItem pvp, pvc, cvc, red, blue, green, yellow;
+	// cvc = computer vs. computer
+	// pvce = player vs.  computer easy
+	// pvcm = player vs. computer medium
+	// pvch = player vs.  computer hard
+	private JMenuItem cvc, pvce, pvcm, pvch;
 
 	private GameBoard board;
 	private GameObject gameObject;
@@ -62,6 +68,9 @@ public class homepage{
 
 	private MainPage new_frame;
 
+	// Boolean if computer vs. computers
+	private boolean computers;
+
 	private String direction = "";
 	private Ship ship;
 	private int orientation = 0;
@@ -75,6 +84,17 @@ public class homepage{
 
 	//Table of contents for color of ships
 	Legend legend;
+
+	// Counters for statistics
+	private int numberShipsSunk, numberHitsMade, numberMissesMade;
+
+	// Components representing each time ship sunk
+	private JPanel shipsSunkPanel;
+	private JLabel shipsSunk, displayShipsSunk;
+
+	// Components for hits and misses
+	private JLabel hitsMade, displayHits;
+	private JLabel missesMade, displayMisses;
 
 	public static void main(String[] args){
 		homepage page = new homepage();
@@ -93,15 +113,17 @@ public class homepage{
 
 	    b1 = new JButton("Computer vs. Computer");
 	    b2 = new JButton("Player vs. Easy Computer");
-	    b3 = new JButton("Player vs. Hard Computer");
-	    b4 = new JButton("Rules of Battleship");
+	    b3 = new JButton("Player vs. Medium Computer");
+	    b4 = new JButton("Player vs. Hard Computer");
+	    b5 = new JButton("Rules of Battleship");
 
 	    panel.setPreferredSize(new Dimension(20,75));
-	    panel.setLayout(new GridLayout(4,1));
+	    panel.setLayout(new GridLayout(5,1));
 	    panel.add(b1);
 	    panel.add(b2);
 	    panel.add(b3);
 	    panel.add(b4);
+	    panel.add(b5);
 
 	    title.setFont(font);
 		title.setForeground(new Color(10,150,250));
@@ -139,8 +161,8 @@ public class homepage{
 	    	}
 	    });
 
-	   	// Player vs. Hard Computer
-	    b3.addActionListener(new ActionListener(){
+	   	// Player vs. Medium Computer
+	   	b3.addActionListener(new ActionListener(){
 	    	public void actionPerformed(ActionEvent e){
 				frame.remove(title);
 				frame.remove(panel);
@@ -151,34 +173,97 @@ public class homepage{
 	    	}
 	    });
 
+	   	// Player vs. Hard Computer
+	    b4.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				frame.remove(title);
+				frame.remove(panel);
+				frame.setVisible(false);
+				frame.dispose();
+
+				boardFrame(4);
+	    	}
+	    });
+
 	    // Rules
-	    b4.addActionListener(new HelpListener());
+	    b5.addActionListener(new HelpListener());
 	}
 
 
 // ------------------------- Now in new frame ----------------------------------------
 	// 1 = comp vs. comp
 	// 2 = player vs. easy comp
-	// 3 = palyer vs. hard comp
+	// 3 = player vs. medium comp
+	// 4 = player vs. hard comp
 
-	public void boardFrame(int i){
+	public void boardFrame(int typeGame){
 		board = new GameBoard();
 		frame = new MainPage();
 		new_frame = (MainPage) frame;
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
 
+		// Initializing stat components
+
+		// Components for when hit
+		numberHitsMade = 0;
+		hitsMade = new JLabel("Number of hits made: ");
+		hitsMade.setFont(new Font("Serif", Font.BOLD, 12));
+		String tempHit = String.valueOf(numberHitsMade);
+		displayHits = new JLabel(tempHit, JLabel.CENTER);
+		displayHits.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		displayHits.setPreferredSize(new Dimension(30,30));
+
+		// Components for when missed
+		numberMissesMade = 0;
+		missesMade = new JLabel("Number of misses made: ");
+		missesMade.setFont(new Font("Serif", Font.BOLD, 12));
+		String tempMiss = String.valueOf(numberMissesMade);
+		displayMisses = new JLabel(tempMiss, JLabel.CENTER);
+		displayMisses.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		displayMisses.setPreferredSize(new Dimension(30,30));
+
+		// Components for when ship is hit
+		numberShipsSunk = 0;
+		shipsSunkPanel = new JPanel(new GridLayout(3,2));
+		shipsSunk = new JLabel("Number of ships sunk: ");
+		shipsSunk.setFont(new Font("Serif", Font.BOLD, 12));
+		String tempSunk = String.valueOf(numberShipsSunk);
+		displayShipsSunk = new JLabel(tempSunk, JLabel.CENTER);
+		displayShipsSunk.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
+		displayShipsSunk.setPreferredSize(new Dimension(30,30));
+
+		shipsSunkPanel.add(hitsMade);
+		shipsSunkPanel.add(displayHits);
+		shipsSunkPanel.add(missesMade);
+		shipsSunkPanel.add(displayMisses);
+		shipsSunkPanel.add(shipsSunk);
+		shipsSunkPanel.add(displayShipsSunk);
+
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
+
+		for (int i = 0; i < 10; i++){
+			for (int j = 0; j < 10; j++){
+				board2[i][j].setEnabled(false);
+			}
+		}
         
-        if (i == 1){
-        	gameObject = new GameObject(board1, board2);
+        if (typeGame == 1){
+        	gameObject = new ComputerVsComputer(board1, board2);
+        	setComputer(true);
         } 
-        else if (i == 2){
+        else if (typeGame == 2){
 			gameObject = new HumanVsComputerEasy(board1, board2);
+			setComputer(false);
         } 
-        else if (i == 3){
+        else if (typeGame == 3){
+        	gameObject = new HumanVsComputerMedium(board1, board2);
+        	setComputer(false);
+        }
+        else if (typeGame == 4){
         	gameObject = new HumanVsComputerHard(board1, board2);
+        	setComputer(false);
         }
 
         //Have the CPU player set their ships
@@ -191,12 +276,108 @@ public class homepage{
 		deploy.addActionListener(new DeployListener());
 
 		new_frame.add(board, BorderLayout.CENTER);
+		new_frame.setJMenuBar(addMenu());
+
 	   	new_frame.setSize(500,500);
 	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    new_frame.setVisible(true);
 	    new_frame.setResizable(false);
-		new_frame.repaint();
 		addButtonListeners(board);
+	}
+
+	// Set true if computer vs. computer
+	public void setComputer(boolean b){
+		computers = b;
+	}
+
+	public boolean getComputer(){
+		return computers;
+	}
+
+	public JMenuBar addMenu(){
+		menuBar = new JMenuBar();
+		gameMenu = new JMenu("Game");
+		JMenu newGame = new JMenu("New Game");
+		cvc = new JMenuItem("Computer vs. Computer");
+		pvce = new JMenuItem("Player vs. Easy Computer");
+		pvcm = new JMenuItem("Player vs. Medium Computer");
+		pvch = new JMenuItem("Player vs. Hard Computer");
+
+	    // Computer vs. Computer
+	    cvc.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				new_frame.remove(title);
+				new_frame.remove(panel);
+				new_frame.setVisible(false);
+				new_frame.dispose();
+
+				boardFrame(1);
+			}
+		});
+
+
+	    // Player vs. Easy Computer
+	   	pvce.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				new_frame.remove(title);
+				new_frame.remove(panel);
+				new_frame.setVisible(false);
+				new_frame.dispose();
+
+				boardFrame(2);
+	    	}
+	    });
+
+	   	// Player vs. Medium Computer
+	   	pvcm.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				new_frame.remove(title);
+				new_frame.remove(panel);
+				new_frame.setVisible(false);
+				new_frame.dispose();
+
+				boardFrame(3);
+	    	}
+	    });
+
+	   	// Player vs. Hard Computer
+	    pvch.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				new_frame.remove(title);
+				new_frame.remove(panel);
+				new_frame.setVisible(false);
+				new_frame.dispose();
+
+				boardFrame(4);
+	    	}
+	    });
+
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				new_frame.setVisible(false);
+				new_frame.dispose();
+			}
+		});
+
+		helpMenu = new JMenu("Help");
+		JMenuItem help = new JMenuItem("View Help");
+		help.addActionListener(new HelpListener());
+
+		newGame.add(cvc);
+		newGame.add(pvce);
+		newGame.add(pvcm);
+		newGame.add(pvch);
+
+		gameMenu.add(newGame);
+		gameMenu.add(exit);
+
+		helpMenu.add(help);
+
+		menuBar.add(gameMenu);
+		menuBar.add(helpMenu);
+
+		return menuBar;
 	}
 
 	private class HelpListener implements ActionListener{
@@ -237,7 +418,6 @@ public class homepage{
 					orientation = 1;
 				}
 
-
 				if (gameObject.placeShip(button.getRow(), button.getColumn(), orientation, ship, 0)){
 					
 					// Repainting the board to default before redrawing the ships
@@ -269,26 +449,62 @@ public class homepage{
 					}
 				}
 			} else{
-				System.out.println("true");
-				// Checking to see if the number of ships sunk before and after take turn
-				// is different
-				int begin = gameObject.getNumberOfShipsSunk(1);
-				gameObject.takeTurn(button.getRow(), button.getColumn(), 0, 1);
-				int end = gameObject.getNumberOfShipsSunk(1);
-				if (begin != end){
-					// Set temp to player 2, meaning player 1 in our programming logic
-					int temp = 2;
-                    JOptionPane.showMessageDialog(null,
-                       "Ship sunk", "Player " + temp + "'s ship has been sunk!",
-                       JOptionPane.INFORMATION_MESSAGE);
-                    new_frame.incrementShipsSunk();
-                    new_frame.repaint();
-				}
+				if (!getComputer()){
+					// Checking to see if the number of ships sunk before and after take turn
+					// is different
+					int beginSunk = gameObject.getNumberOfShipsSunk(1);
+					int beginHit = gameObject.getNumberOfHits(0);
+					int beginMiss = gameObject.getNumberOfMisses(0);
+					gameObject.takeTurn(button.getRow(), button.getColumn(), 0, 1);
+					int endSunk = gameObject.getNumberOfShipsSunk(1);
+					int endHit = gameObject.getNumberOfHits(0);
+					int endMiss = gameObject.getNumberOfMisses(0);
 
+					if (beginSunk != endSunk){
+	                    numberShipsSunk += 1;
+	                    // Increment JLabel with number of ships sunk
+	                    String tempnum = String.valueOf(numberShipsSunk);
+						displayShipsSunk.setText(tempnum);
+					}
+					if (beginHit != endHit){
+						numberHitsMade += 1;
+	                    // Increment JLabel with number of hits
+	                    String tempnum = String.valueOf(numberHitsMade);
+						displayHits.setText(tempnum);
+					}
+					if (beginMiss != endMiss){
+						numberMissesMade += 1;
+	                    // Increment JLabel with number of misses
+	                    String tempnum = String.valueOf(numberMissesMade);
+						displayMisses.setText(tempnum);
+					}
+				}
 			}
+
+			// Check whether game is over
+			// Check if player has won
 			if (gameObject.checkGameOver() == 0){
 				JOptionPane.showMessageDialog(null, "Player " + "1 " +
 					"has won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+				//If game is over, set computer board to not enabled
+				for (int i = 0; i < 10; i++){
+					for (int j = 0; j < 10; j++){
+						board2[i][j].setEnabled(false);
+					}
+				}
+			}
+
+			if (gameObject.getNumberOfHits(1) == 17){
+				JOptionPane.showMessageDialog(null, "Player " + "2 " +
+				"has won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+				//If game is over, set computer board to not enabled
+				for (int i = 0; i < 10; i++){
+					for (int j = 0; j < 10; j++){
+						board2[i][j].setEnabled(false);
+					}
+				}
 			}
 		}
 	}
@@ -340,11 +556,15 @@ public class homepage{
 	private class DeployListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			if (deploy.isEnabled()){
+				for (int i = 0; i < 10; i++){
+					for (int j = 0; j < 10; j++){
+						board2[i][j].setEnabled(true);
+					}
+				}
 
 				//Removing top labels of frame
 				new_frame.removeOptions();
-				new_frame.addStatistics();
-				new_frame.repaint();
+				new_frame.addSouthPanelEast(shipsSunkPanel);
 
 				//Set board to disabled
 				for (int i = 0; i < 10; i++){
