@@ -96,6 +96,7 @@ public class homepage{
 	private JLabel hitsMade, displayHits;
 	private JLabel missesMade, displayMisses;
 
+
 	public static void main(String[] args){
 		homepage page = new homepage();
 		page.create();
@@ -243,6 +244,10 @@ public class homepage{
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
 
+		deploy = new_frame.getDeploy();
+		deploy.setEnabled(false);
+		deploy.addActionListener(new DeployListener());
+
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
 				board2[i][j].setEnabled(false);
@@ -251,7 +256,13 @@ public class homepage{
         
         if (typeGame == 1){
         	gameObject = new ComputerVsComputer(board1, board2);
-        	setComputer(true);
+        	deploy.setEnabled(true);
+        	for (int i = 0; i < 10; i++){
+				for (int j = 0; j < 10; j++){
+					board1[i][j].setEnabled(false);
+				}
+			}
+			setComputer(true);
         } 
         else if (typeGame == 2){
 			gameObject = new HumanVsComputerEasy(board1, board2);
@@ -270,10 +281,6 @@ public class homepage{
         //CPU player is always team 1
         //Human Player is always team 0
         gameObject.cpuInitialize(1);
-
-		deploy = new_frame.getDeploy();
-		deploy.setEnabled(false);
-		deploy.addActionListener(new DeployListener());
 
 		new_frame.add(board, BorderLayout.CENTER);
 		new_frame.setJMenuBar(addMenu());
@@ -556,20 +563,25 @@ public class homepage{
 	private class DeployListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			if (deploy.isEnabled()){
-				for (int i = 0; i < 10; i++){
-					for (int j = 0; j < 10; j++){
-						board2[i][j].setEnabled(true);
-					}
+				if (getComputer()){
+					gameObject.start();
 				}
+				else{
+					for (int i = 0; i < 10; i++){
+						for (int j = 0; j < 10; j++){
+							board2[i][j].setEnabled(true);
+						}
+					}
 
-				//Removing top labels of frame
-				new_frame.removeOptions();
-				new_frame.addSouthPanelEast(shipsSunkPanel);
+					//Removing top labels of frame
+					new_frame.removeOptions();
+					new_frame.addSouthPanelEast(shipsSunkPanel);
 
-				//Set board to disabled
-				for (int i = 0; i < 10; i++){
-					for (int j = 0; j < 10; j++){
-						board1[i][j].setEnabled(false);
+					//Set board to disabled
+					for (int i = 0; i < 10; i++){
+						for (int j = 0; j < 10; j++){
+							board1[i][j].setEnabled(false);
+						}
 					}
 				}
 			}

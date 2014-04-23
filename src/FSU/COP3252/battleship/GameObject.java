@@ -610,7 +610,7 @@ class ComputerVsComputer extends GameObject
     
     private boolean cpuTurn(Couple target, int team, int teamToAttack)
     {
-        
+
         while( ! super.takeTurn(target.x, target.y, team, teamToAttack ) )
         {
             target = cpuGetTarget(team);
