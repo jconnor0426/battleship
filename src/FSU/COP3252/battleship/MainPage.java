@@ -151,7 +151,7 @@ class MainPage extends JFrame{
 		}
 	}
 
-	public void addToSouthPanel(Jpanel panel){
+	public void addToSouthPanel(JPanel panel){
 		southPanel.add(panel);
 	}
 

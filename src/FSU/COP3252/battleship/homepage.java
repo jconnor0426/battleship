@@ -348,7 +348,7 @@ public class homepage{
                     JOptionPane.showMessageDialog(null,
                        "Ship sunk", "Player " + temp + "'s ship has been sunk!",
                        JOptionPane.INFORMATION_MESSAGE);
-                    new_frame.incrementShipsSunk();
+                    
                     new_frame.repaint();
 				}
 
