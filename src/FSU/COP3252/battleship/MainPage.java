@@ -83,6 +83,7 @@ class MainPage extends JFrame{
 	public MainPage(){
 		addMenu();
 		optionMenus();
+		addsouthPanel();
 	}
 
 	public void addMenu(){
@@ -151,20 +152,34 @@ class MainPage extends JFrame{
 		}
 	}
 
-	public void addToSouthPanel(JPanel panel){
-		southPanel.add(panel);
+	public void addStatistics(){
+		statsPanel = new JPanel(new GridLayout(3,2));
+		hits            = new JLabel("Hits");
+		misses          = new JLabel("Misses");
+		shipsSunk       = new JLabel("Ships Sunk   ");
+		numberHits      = new TextField("0", 2);
+		numberMisses    = new TextField("0", 2);
+		numberShipsSunk = new TextField("0", 2);
+		numberHits.setEditable(false);
+		numberMisses.setEditable(false);
+		numberShipsSunk.setEditable(false);
+		statsTracker = new JPanel(new GridLayout(3, 2));
+		statsTracker.add(hits);
+		statsTracker.add(numberHits);
+		statsTracker.add(misses);
+		statsTracker.add(numberMisses);
+		statsTracker.add(shipsSunk);
+		statsTracker.add(numberShipsSunk);
+		southPanel.add(statsTracker, BorderLayout.EAST);
 	}
 
-	public void addSouthPanel(){
+	public void addsouthPanel(){
 		legend = new Legend();
 		southPanel = new JPanel(new BorderLayout());
 		southPanel.setPreferredSize(new Dimension(100,100));
+		addStatistics();
 		southPanel.add(legend, BorderLayout.WEST);
 		add(southPanel, BorderLayout.SOUTH);
-	}
-
-	public void paintComponent(Graphics g){
-		statsTracker.repaint();
 	}
 
 	public JButton getDeploy(){
@@ -182,4 +197,44 @@ class MainPage extends JFrame{
 	public void removeOptions(){
 		getContentPane().remove(shipOptions);
 	}
+
+	public void incrementHits(){
+		String text = numberHits.getText();
+		int number = Integer.parseInt(text);
+		number += 1;
+		String num = String.valueOf(number);
+		numberHits.setText(num);
+		repaint();
+	}
+
+	public void incrementMisses(){
+		String text = numberMisses.getText();
+		int number = Integer.parseInt(text);
+		number += 1;
+		String num = String.valueOf(number);
+		numberMisses.setText(num);
+		repaint();
+	}
+
+	public void incrementShipsSunk(){
+		String text = numberShipsSunk.getText();
+		int number = Integer.parseInt(text);
+		number += 1;
+		String num = String.valueOf(number);
+		numberShipsSunk.setText(num);
+		repaint();
+	}
+
+	public void paintComponent(Graphics g){
+		this.paintComponent(g);
+		statsPanel.repaint();
+		statsTracker.repaint();
+	}
 }
+
+
+
+
+
+
+

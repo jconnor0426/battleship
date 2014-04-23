@@ -70,16 +70,11 @@ public class homepage{
 	private MyButton[][] board1;
 	private MyButton[][] board2;
 
-        private int gameType;
 	//Deployed button
 	private JButton deploy;
 
 	//Table of contents for color of ships
 	Legend legend;
-
-	JPanel statsPanel, statsTracker;
-	JLabel hits, misses, shipsSunk;
-	TextField numberHits, numberMisses, numberShipsSunk;
 
 	public static void main(String[] args){
 		homepage page = new homepage();
@@ -164,8 +159,7 @@ public class homepage{
 // ------------------------- Now in new frame ----------------------------------------
 	// 1 = comp vs. comp
 	// 2 = player vs. easy comp
-        // 3 = player vs. medium comp
-	// 4 = player vs. hard comp
+	// 3 = palyer vs. hard comp
 
 	public void boardFrame(int i){
 		board = new GameBoard();
@@ -173,23 +167,18 @@ public class homepage{
 		new_frame = (MainPage) frame;
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
-		addStatistics();
 
         board1 = board.getBoard2();
 		board2 = board.getBoard1();
-                gameType = i;
-        if (gameType == 1){
-        	gameObject = new ComputerVsComputer(board1, board2);
+        
+        if (i == 1){
+        	gameObject = new GameObject(board1, board2);
         } 
-        else if (gameType == 2){
+        else if (i == 2){
 			gameObject = new HumanVsComputerEasy(board1, board2);
         } 
-        else if (gameType == 3){
-        	gameObject = new HumanVsComputerMedium(board1, board2);
-        }
-        else
-        {
-            gameObject = new HumanVsComputerHard(board1, board2);
+        else if (i == 3){
+        	gameObject = new HumanVsComputerHard(board1, board2);
         }
 
         //Have the CPU player set their ships
@@ -200,70 +189,14 @@ public class homepage{
 		deploy = new_frame.getDeploy();
 		deploy.setEnabled(false);
 		deploy.addActionListener(new DeployListener());
-                
-                //Check to see if gametype is a computer vs computer
-                if( gameType == 1 )
-                {
-                    //if it is enable the deploy button as that will start the game
-                    deploy.setEnabled(true );
-                }
 
 		new_frame.add(board, BorderLayout.CENTER);
-		new_frame.addToSouthPanel(statsTracker);
-		new_frame.addSouthPanel();
 	   	new_frame.setSize(500,500);
 	    new_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    new_frame.setVisible(true);
 	    new_frame.setResizable(false);
 		new_frame.repaint();
 		addButtonListeners(board);
-	}
-
-	public void addStatistics(){
-		statsPanel = new JPanel(new GridLayout(3,2));
-		hits            = new JLabel("Hits");
-		misses          = new JLabel("Misses");
-		shipsSunk       = new JLabel("Ships Sunk   ");
-		numberHits      = new TextField("0", 2);
-		numberMisses    = new TextField("0", 2);
-		numberShipsSunk = new TextField("0", 2);
-		numberHits.setEditable(false);
-		numberMisses.setEditable(false);
-		numberShipsSunk.setEditable(false);
-		statsTracker = new JPanel(new GridLayout(3, 2));
-		statsTracker.add(hits);
-		statsTracker.add(numberHits);
-		statsTracker.add(misses);
-		statsTracker.add(numberMisses);
-		statsTracker.add(shipsSunk);
-		statsTracker.add(numberShipsSunk);
-	}
-
-	public void incrementHits(){
-		String text = numberHits.getText();
-		int number = Integer.parseInt(text);
-		number += 1;
-		String num = String.valueOf(number);
-		numberHits.setText(num);
-		new_frame.repaint();
-	}
-
-	public void incrementMisses(){
-		String text = numberMisses.getText();
-		int number = Integer.parseInt(text);
-		number += 1;
-		String num = String.valueOf(number);
-		numberMisses.setText(num);
-		new_frame.repaint();
-	}
-
-	public void incrementShipsSunk(){
-		String text = numberShipsSunk.getText();
-		int number = Integer.parseInt(text);
-		number += 1;
-		String num = String.valueOf(number);
-		numberShipsSunk.setText(num);
-		new_frame.repaint();
 	}
 
 	private class HelpListener implements ActionListener{
@@ -348,7 +281,7 @@ public class homepage{
                     JOptionPane.showMessageDialog(null,
                        "Ship sunk", "Player " + temp + "'s ship has been sunk!",
                        JOptionPane.INFORMATION_MESSAGE);
-                    
+                    new_frame.incrementShipsSunk();
                     new_frame.repaint();
 				}
 
@@ -410,21 +343,37 @@ public class homepage{
 
 				//Removing top labels of frame
 				new_frame.removeOptions();
-				//new_frame.addStatistics();
+				new_frame.addStatistics();
 				new_frame.repaint();
 
 				//Set board to disabled
 				for (int i = 0; i < 10; i++){
 					for (int j = 0; j < 10; j++){
 						board1[i][j].setEnabled(false);
-                                                board2[i][j].setEnabled(false);
 					}
 				}
-                                if( gameType == 1 )
-                                {
-                                    gameObject.start();
-                                }
 			}
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
