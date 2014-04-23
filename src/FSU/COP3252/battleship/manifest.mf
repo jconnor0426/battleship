@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: Alex Damiani and John McLaughlin
+Main-Class: homepage
