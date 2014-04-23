@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.awt.TextField;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
+import javax.sound.sampled.*;
 
 public class homepage{
 	private JFrame frame = new JFrame("Home Screen");
@@ -95,6 +96,8 @@ public class homepage{
 	// Components for hits and misses
 	private JLabel hitsMade, displayHits;
 	private JLabel missesMade, displayMisses;
+
+	private boolean starting;
 
 
 	public static void main(String[] args){
@@ -203,6 +206,7 @@ public class homepage{
 		new_frame = (MainPage) frame;
 		shipsList = new_frame.getShipList();
 		directionsList = new_frame.getDirectionList();
+		starting = false;
 
 		// Initializing stat components
 
@@ -413,7 +417,7 @@ public class homepage{
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			MyButton button = (MyButton) ev.getSource();
-			if (!deploy.isEnabled()){
+			if (!deploy.isEnabled() || !getStartGame()){
 				int size = 0;
 				direction = (String)directionsList.getSelectedItem();
 				ship = (Ship) shipsList.getSelectedItem();
@@ -467,23 +471,29 @@ public class homepage{
 					int endHit = gameObject.getNumberOfHits(0);
 					int endMiss = gameObject.getNumberOfMisses(0);
 
+					// Check if a ship is sunk
 					if (beginSunk != endSunk){
 	                    numberShipsSunk += 1;
 	                    // Increment JLabel with number of ships sunk
 	                    String tempnum = String.valueOf(numberShipsSunk);
 						displayShipsSunk.setText(tempnum);
+						playExplosion();
 					}
+					// Check is hit is made
 					if (beginHit != endHit){
 						numberHitsMade += 1;
 	                    // Increment JLabel with number of hits
 	                    String tempnum = String.valueOf(numberHitsMade);
 						displayHits.setText(tempnum);
+						playHit();
 					}
+					// Check is miss is made
 					if (beginMiss != endMiss){
 						numberMissesMade += 1;
 	                    // Increment JLabel with number of misses
 	                    String tempnum = String.valueOf(numberMissesMade);
 						displayMisses.setText(tempnum);
+						playMiss();
 					}
 				}
 			}
@@ -514,6 +524,47 @@ public class homepage{
 				}
 			}
 		}
+	}
+
+	public void StartGame(boolean b){
+		starting = b;
+	}
+
+	public boolean getStartGame(){
+		return starting;
+	}
+
+	public void playExplosion(){
+		AudioInputStream audioInputStream;
+		try{
+			File soundFile = new File( "Arcade Explo A.wav" );
+			audioInputStream = AudioSystem.getAudioInputStream( soundFile );
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();//This plays the audio
+		} catch (Exception e){}	
+	}
+
+	public void playMiss(){
+		AudioInputStream audioInputStream;
+		try{
+			File soundFile = new File( "water-splash-3.wav" );
+			audioInputStream = AudioSystem.getAudioInputStream( soundFile );
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();//This plays the audio
+		} catch (Exception e){}	
+	}
+
+	public void playHit(){
+		AudioInputStream audioInputStream;
+		try{
+			File soundFile = new File( "battle explosion.wav" );
+			audioInputStream = AudioSystem.getAudioInputStream( soundFile );
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();//This plays the audio
+		} catch (Exception e){}	
 	}
 
 	public void colorButtons(Ship shipToDraw, int team){
@@ -563,6 +614,7 @@ public class homepage{
 	private class DeployListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			if (deploy.isEnabled()){
+				StartGame(true);
 				if (getComputer()){
 					gameObject.start();
 				}
